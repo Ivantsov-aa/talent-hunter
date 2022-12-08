@@ -1,0 +1,23 @@
+.profile-feed__wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 227px);
+    gap: 18px;
+
+    .photo__container {
+        scale: 1;
+        transition: 0.3s;
+        cursor: pointer;
+
+        img {
+            width: 100%;
+            height: 350px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+
+        &:hover {
+            scale: 1.02;
+        }
+    }
+}

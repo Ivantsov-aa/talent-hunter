@@ -1,0 +1,53 @@
+.favorites__wrapper {
+    h1 {
+        margin-bottom: 20px;
+    }
+}
+
+.favorite_block {
+    @include flex-params (row, space-between, center);
+    margin-bottom: 30px;
+
+    &:last-child {
+        margin: 0
+    }
+
+    div {
+        @include flex-params (row, flex-start, center);
+
+        img {
+            height: 60px;
+            margin-right: 20px;
+        }
+
+        p {
+            @include font-params (600, 14px, 18px);
+
+            span {
+                margin-top: 5px;
+                display: block;
+                @include font-params (400, 12px, 15px);
+            }
+        }
+
+        button {
+            height: 30px;
+            width: 150px;
+            margin-right: 20px;
+            background: #ECECEC;
+            color: #484848;
+            @include font-params (600, 12px, 30px);
+
+            &:last-child {
+                margin: 0;
+                background: #0094FF;
+                color: #fff;
+            }
+
+            &.friends {
+                background: #0094FF;
+                color: #fff;
+            }
+        }
+    }
+}

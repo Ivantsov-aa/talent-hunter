@@ -1,0 +1,37 @@
+@media only screen and (max-width: 500px) {
+    .registration__wrapper {
+        h1 {
+            @include font-params (700, 18px, 25px);
+        }
+
+        .registration__steps {
+            @include flex-params (row, space-between, center);
+            margin: 0 auto 40px;
+
+            .step {
+                width: 50px;
+                height: 50px;
+                padding-top: 10px;
+
+                &:after {
+                    content: '';
+                    display: inline-block;
+                    position: absolute;
+                    top: 50%;
+                    left: 50px;
+                    z-index: -1;
+                    width: 55px;
+                    height: 1px;
+                    background: rgba(53, 53, 53, 0.5);
+                }
+            }
+        }
+    }
+
+    .upload-photo {
+
+        .registration_close {
+            top: -50px;
+        }
+    }
+}

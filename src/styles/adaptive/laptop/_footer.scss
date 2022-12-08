@@ -1,0 +1,69 @@
+@media only screen and (max-width: 1024px) {
+    footer {
+        padding-top: 20px;
+        background: #fff;
+
+        .footer__content {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #525252;
+
+            .footer__flex {
+                max-width: 688px;
+
+                >section {
+                    display: none;
+
+                    &:last-child {
+                        display: block;
+                    }
+
+                    &:first-child {
+                        display: block;
+
+                        img {
+                            width: 120px;
+                            height: 25px;
+                            margin-bottom: 10px;
+                        }
+
+                        p {
+                            @include font-params (400, 8px, 10px);
+                        }
+                    }
+
+                    &.our-social-network {
+                        h3 {
+                            @include font-params (600, 12px, 15px);
+                            margin-bottom: 13px;
+                        }
+
+                        .social-links {
+                            @include flex-params (row, flex-end, center);
+
+                            a {
+                                display: block;
+                                width: 24px;
+                                height: 24px;
+                                margin-right: 14px;
+
+                                &:last-child {
+                                    background-size: contain;
+                                    margin-right: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .footer__sub {
+            padding: 10px 0;
+
+            span {
+                @include font-params (400, 10px, 12px);
+                margin-right: 50px;
+            }
+        }
+    }
+}

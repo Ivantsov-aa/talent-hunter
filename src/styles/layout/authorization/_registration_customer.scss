@@ -1,0 +1,123 @@
+.registration__wrapper {
+
+    &.role__container {
+        transition: all 0.5s;
+
+        &.success {
+            max-height: max-content;
+
+        }
+
+        .steps_circle {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            border-radius: 50%;
+            left: 0;
+            border: 1px solid #3535354D;
+            z-index: -1;
+
+            .svg__wrapper {
+                padding: 0;
+                position: absolute;
+                top: -3px;
+                left: -3px;
+                width: 86px;
+                height: 86px;
+
+                .progressbar__svg {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 86px;
+                    height: 86px;
+
+                    .progressbar__svg-circle {
+                        --length-step-line: 1 250;
+                        fill: none;
+                        z-index: 10;
+                        stroke-width: 3;
+                        stroke-dasharray: var(--length-step-line);
+                        stroke-dashoffset: 56;
+                        stroke: #0094FF;
+                        stroke-linecap: round;
+                        transition: all 1s;
+                    }
+                }
+            }
+
+
+            p {
+                padding-top: 25px;
+                @include font-params (500, 25px, 30px);
+            }
+
+            span {
+                display: inline-block !important;
+                font-weight: 700;
+                color: #0094FF;
+            }
+        }
+
+        .customer__wrapper {
+
+            .customer__title {
+                @include flex-params (row, center, center);
+                margin-bottom: 50px;
+                position: relative;
+
+                h1 {
+                    margin: 0;
+                }
+            }
+
+            .customer_content {
+                text-align: left;
+
+                label {
+                    @include font-params (600, 15px, 22px);
+                    padding-left: 31px;
+
+                    .PhoneInput {
+                        margin-top: 19px;
+                    }
+
+                    .PhoneInputInput {
+                        margin: 0;
+                    }
+
+                    input {
+                        margin-top: 10px;
+                    }
+                }
+            }
+        }
+
+        .questionnaire__wrapper {
+            h1 {
+                margin-bottom: 50px;
+            }
+
+            .success-notification {
+                .icon {
+                    width: 206px;
+                    height: 206px;
+                    margin-bottom: 50px;
+
+                }
+            }
+
+            p {
+                max-width: 382px;
+                margin-bottom: 50px;
+            }
+
+            button {
+                width: 272px;
+                height: 60px;
+                border-radius: 30px;
+                @include font-params (600, 20px, 24px);
+            }
+        }
+    }
+}

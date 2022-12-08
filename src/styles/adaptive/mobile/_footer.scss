@@ -1,0 +1,74 @@
+@media only screen and (max-width: 767px) {
+    footer {
+        padding-top: 20px;
+        background: #fff;
+
+        .footer__content {
+            padding-bottom: 30px;
+            border-bottom: 1px solid #525252;
+
+            .footer__flex {
+                @include flex-params (column, flex-start, center);
+                max-width: 325px;
+
+                >section {
+                    display: none;
+
+                    &:last-child {
+                        display: block;
+                    }
+
+                    &:first-child {
+                        @include flex-params (column, flex-end, center);
+
+                        img {
+                            width: 230px;
+                            height: 45px;
+                            margin-bottom: 30px;
+                        }
+                    }
+
+                    &.our-social-network {
+                        @include flex-params (column, flex-end, center);
+
+                        h3 {
+                            @include font-params (600, 16px, 20px);
+                            margin-bottom: 13px;
+                        }
+
+                        .social-links {
+                            @include flex-params (row, flex-end, center);
+
+                            a {
+                                display: block;
+                                width: 32px;
+                                height: 32px;
+                                margin-right: 14px;
+
+                                &:last-child {
+                                    background-size: contain;
+                                    margin-right: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .footer__sub {
+            padding: 30px 0;
+            @include flex-params (column, center, center);
+
+            span {
+                @include font-params (400, 12px, 15px);
+                margin-bottom: 20px;
+                margin-right: 0;
+
+                &:last-child {
+                    max-width: 205px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,477 @@
+@media only screen and (max-width: 767px) {
+    main {
+        padding-top: 80px;
+        max-width: 325px;
+
+        .main_title__wrapper {
+            margin-bottom: 50px;
+
+            .users-counter {
+                width: 250px;
+                height: 30px;
+                margin-bottom: 30px;
+
+                p {
+                    @include font-params (600, 10px, 12px);
+
+                    &:last-child {
+                        @include font-params (600, 16px, 20px);
+                    }
+                }
+            }
+
+            h1 {
+                font-family: 'Roboto', sans-serif;
+                @include font-params(700, 35px, 40px);
+                color: #fff;
+                margin-bottom: 20px;
+            }
+
+            >p {
+                @include font-params (400, 12px, 15px);
+                color: #fff;
+                margin-bottom: 30px;
+            }
+
+            button {
+                @include font-params (600, 12px, 15px);
+                width: 150px;
+                height: 30px;
+            }
+        }
+
+        .main_top-users__wrapper {
+            max-width: 325px;
+            height: 150px;
+            margin-bottom: 40px;
+
+            .slick-slider {
+                width: 325px;
+                height: 150px;
+
+                .slick-list {
+                    height: 150px;
+                }
+
+                .slick-track {
+                    height: 150px;
+                    left: 100px;
+
+                    .slick-slide {
+                        width: 175px !important;
+                        height: 150px;
+                    }
+                }
+            }
+
+            .user__container {
+                width: 100px;
+
+                .user__logo {
+                    max-width: 150px;
+                    height: 150px;
+
+                }
+
+                .user__name {
+                    padding: 5px;
+                    top: -24px;
+                    left: -24px;
+
+                    p {
+                        @include font-params (400, 8px, 10px);
+                        padding-bottom: 5px;
+
+                        &:nth-child(2) {
+                            @include font-params (400, 7px, 8px);
+                            padding-top: 5px;
+                        }
+                    }
+                }
+
+                .user__content {
+                    padding: 5px;
+                    right: -14px;
+                    bottom: 10px;
+
+                    img {
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    >div {
+                        margin-bottom: 5px;
+                        height: 18px;
+
+                        &:last-child {
+                            margin: 0;
+                        }
+                    }
+                }
+
+                &:nth-child(3) {
+                    .user__name {
+                        bottom: 20px;
+                        right: -25px;
+
+                        >div {
+                            right: -15px;
+                            top: -12px;
+                            @include font-params (600, 8px, 10px);
+
+                            &::before {
+                                width: 20px;
+                                height: 18px;
+                                background-size: contain;
+                                margin-right: 3px;
+                            }
+                        }
+                    }
+
+                    .user__content {
+                        bottom: auto;
+                        right: auto;
+                        top: 15px;
+                        left: -14px;
+                    }
+                }
+            }
+        }
+    }
+
+    .main__about-us__wrapper {
+        .slider__wrapper {
+            margin-bottom: 100px;
+            height: 225px;
+
+            .slick-track {
+                height: 225px;
+
+                .slick-slide {
+                    width: 336px !important;
+                    height: 205px;
+
+                    >div {
+                        width: 336px;
+                    }
+
+                    .about-us__container {
+                        width: 225px !important;
+                        height: 205px !important;
+                        padding: 10px;
+
+                        img {
+                            width: 222px;
+                            height: 187px;
+                        }
+                    }
+
+                    &.slick-center {
+                        width: 336px !important;
+                        height: 225px;
+
+                        .about-us__container {
+                            padding: 10px;
+                            width: 325px !important;
+                            height: 225px !important;
+
+                            img {
+                                height: 205px !important;
+                                width: 305px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .slider__control {
+            button {
+                width: 32px;
+                height: 32px;
+                margin-right: 20px;
+                background-size: contain;
+            }
+        }
+
+        .customers__wrapper,
+        .performers__wrapper {
+            @include flex-params (column, center, center);
+            margin-bottom: 100px;
+
+            .performers__description {
+                @include flex-params (column, center, center);
+                padding-top: 0;
+                margin-right: 0;
+                max-width: 100%;
+            }
+
+            .customers__description {
+                @include flex-params (column, center, center);
+                padding-top: 0;
+                max-width: 100%;
+                margin-right: 0;
+            }
+
+            h2 {
+                @include font-params (600, 25px, 30px);
+                margin-bottom: 15px;
+            }
+
+            p {
+                @include font-params (400, 12px, 15px);
+                margin-bottom: 30px;
+            }
+
+            button {
+                margin-bottom: 30px;
+                width: 150px;
+                height: 30px;
+                @include font-params (600, 12px, 15px);
+            }
+
+            .customers_bg {
+                max-width: 100%;
+                top: 30px;
+                right: 0;
+                text-align: end;
+
+                img {
+                    width: 70%;
+
+                    &:last-child {
+                        width: 200px;
+                        height: 200px;
+                        max-height: 200px;
+                        transform: translate(0, 10%);
+                    }
+                }
+            }
+
+            .performers_bg {
+                max-width: 528px;
+                height: 384px;
+
+                img {
+                    width: 100%;
+                    height: 384px;
+                }
+            }
+        }
+
+        .performers__wrapper {
+            margin: 0 auto;
+        }
+
+        .presentation__wrapper {
+
+            &:first-child {
+                text-align: left;
+            }
+
+            h2 {
+                @include font-params (600, 25px, 30px);
+                margin-bottom: 15px;
+            }
+
+            p {
+                @include font-params (400, 12px, 15px);
+                margin-bottom: 30px;
+            }
+
+            button {
+                margin: auto;
+                color: #FFF;
+                width: 150px;
+                height: 30px;
+                @include font-params (600, 12px, 15px);
+            }
+
+            img {
+                border-radius: 4px
+            }
+
+            .castings__wrapper {
+                @include flex-params (column-reverse, center, center);
+                max-width: 325px;
+                margin-bottom: 80px;
+
+                h2 {
+                    text-align: end;
+                }
+
+                p {
+                    margin-bottom: 20px;
+                }
+
+                .castings__description {
+                    @include flex-params (column, center, center);
+                    padding-top: 0;
+                }
+
+                .castings_bg {
+                    margin-right: 0;
+                    top: 30px;
+
+                    img {
+                        width: 325px;
+                        height: 230px;
+                    }
+                }
+            }
+        }
+
+        .benefits__wrapper {
+            max-width: 688px;
+            margin-bottom: 50px;
+
+            h2 {
+                @include font-params (600, 25px, 30px);
+                margin-bottom: 30px;
+            }
+
+            p {
+                @include font-params (400, 12px, 15px);
+            }
+
+            .benefits__list {
+                @include flex-params (column, space-between, center);
+
+                .slick-slider {
+                    width: 325px;
+                    height: 227px;
+                    margin-bottom: 30px;
+
+                    .slick-list {
+                        height: 227px;
+                    }
+
+                    .slick-track {
+                        height: 227px;
+
+                        .slick-slide {
+                            width: 325px !important;
+                            height: 227px;
+                        }
+                    }
+                }
+
+                .benefit__container {
+                    border: 1px solid #FFFFFF;
+                    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+                    border-radius: 4px;
+                    padding: 30px 25px;
+                    max-width: 235px;
+                    margin-right: 20px;
+
+                    &:last-child {
+                        margin: 0;
+                    }
+
+                    &:hover {
+                        border-color: #0094FF;
+                        color: #0094FF;
+                    }
+
+                    .benefit_logo {
+                        width: 80px;
+                        height: 80px;
+                        margin: auto;
+                        border-radius: 50%;
+                        background: #FFF;
+                        margin-bottom: 25px;
+                    }
+                }
+            }
+        }
+
+        .reviews__wrapper {
+            @include flex-params (column, space-between, center);
+            max-width: 325px;
+            margin-bottom: 50px;
+
+            .reviews__description {
+
+                h2 {
+                    @include font-params (600, 25px, 30px);
+                    margin-bottom: 15px;
+                }
+
+                p {
+                    @include font-params (500, 12px, 14px);
+                    margin-bottom: 30px;
+                }
+
+                .reviews-slider__wrapper {
+
+                    .slick-slider {
+                        margin-bottom: 30px;
+                        top: 0;
+                        left: 27.5px;
+                        max-width: 325px;
+                    }
+
+                    .slick-list {
+                        height: 270px;
+
+                        .slick-track {
+                            height: 270px !important;
+                        }
+
+                        .slick-slide {
+                            width: 325px !important;
+
+                            .review__container {
+                                height: 270px;
+                                max-width: 275px;
+                                padding: 20px;
+
+                                h3 {
+                                    margin-bottom: 10px;
+                                    @include font-params (600, 16px, 20px);
+                                }
+
+                                p {
+                                    @include font-params (300, 12px, 15px);
+
+                                    span {
+                                        display: block;
+                                        color: #0094FF;
+                                        position: absolute;
+                                        width: 15px;
+                                        height: 15px;
+                                        background-size: contain;
+                                        top: -15px;
+                                        left: -5px;
+                                    }
+                                }
+
+                                img {
+                                    margin: auto;
+                                    height: 100px;
+                                    margin-bottom: 10px;
+                                }
+                            }
+                        }
+                    }
+
+                    .slider__control {
+                        max-width: 128px;
+                        margin: auto;
+                        position: relative;
+                        transform: translateX(0);
+                    }
+                }
+            }
+
+            .reviews_bg {
+                margin-right: 0;
+                margin-bottom: 30px;
+
+                img {
+                    width: 325px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,60 @@
+.upload-photo {
+    h1 {
+        margin-bottom: 60px;
+    }
+
+    label {
+        width: 194px;
+        height: 194px;
+        cursor: pointer;
+        display: block;
+        color: #0094FF;
+        @include font-params (300, 180px, 194px);
+        background: #F8F8F8;
+        border-radius: 50%;
+        margin: 0 auto 55px;
+
+        .user-photo {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    #upload-photo {
+        opacity: 0;
+        position: absolute;
+        z-index: -1;
+    }
+
+    button.upload {
+        display: block;
+        width: 210px;
+        height: 60px;
+        border-radius: 30px;
+        @include font-params (600, 20px, 24px);
+        margin: auto;
+    }
+}
+
+.success_registration {
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    p {
+        max-width: none;
+        @include font-params (500, 16px, 20px);
+        margin-bottom: 30px;
+    }
+
+    .redirect {
+        display: block;
+        width: 210px;
+        height: 60px;
+        border-radius: 30px;
+        @include font-params (600, 20px, 24px);
+        margin: auto;
+    }
+}

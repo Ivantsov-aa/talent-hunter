@@ -1,0 +1,44 @@
+.authorization__wrapper {
+    min-height: max-content !important;
+
+    .auth_input {
+        position: relative;
+
+        &.error_phone {
+            .PhoneInput {
+                margin: 0 !important;
+            }
+        }
+
+        button {
+            position: absolute;
+            right: 20px;
+            top: 19px;
+            z-index: 1;
+            color: #0094FF;
+            background: none;
+            @include font-params (600, 18px, 22px);
+        }
+
+        .error_input {
+            border-color: #FC3232;
+            margin-bottom: 0 !important;
+        }
+
+        .error {
+            max-height: 0;
+            margin: 0;
+            overflow: hidden;
+            color: #FC3232;
+            transition: all 0.5s;
+            @include font-params (500, 12px, 15px);
+            text-align: left;
+
+            &.active {
+                max-width: 100%;
+                max-height: max-content;
+                margin: 5px 0 40px;
+            }
+        }
+    }
+}

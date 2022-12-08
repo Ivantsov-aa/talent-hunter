@@ -1,0 +1,59 @@
+.aside-filter__wrapper {
+    background-color: #fff;
+    width: 350px;
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transform: translateX(550px);
+    transition: .5s;
+    @include flex-params (column, center, flex-start);
+
+    &.active {
+        transform: translateX(0);
+        z-index: 100;
+    }
+
+    button,
+    a {
+        display: block;
+        width: 270px;
+        height: 40px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        padding-left: 20px;
+        text-align: left;
+        text-transform: uppercase;
+        @include font-params (500, 12px, 18px);
+        position: relative;
+
+        &:nth-child(-n + 5) {
+            background: #1C2435;
+
+            &::after {
+                content: '';
+                display: inline-block;
+                position: absolute;
+                top: 7px;
+                right: 10px;
+                background: url('../../../../public/images/icons/redirect-icon.svg') no-repeat center;
+                background-size: contain;
+                width: 27px;
+                height: 27px;
+            }
+        }
+    }
+
+    a {
+        @include flex-params (row, flex-start, center);
+        border-radius: 20px;
+
+        &::after {
+            background: url('../../../../public/images/icons/add-icon.svg') no-repeat center !important;
+            background-size: contain !important;
+            width: 27px;
+            height: 27px;
+            vertical-align: middle;
+        }
+    }
+}

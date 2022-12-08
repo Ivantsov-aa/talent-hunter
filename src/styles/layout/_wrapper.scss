@@ -1,0 +1,87 @@
+@keyframes enabled-bg {
+    0% {
+        background: rgba($color: #1C2435, $alpha: .95);
+    }
+
+    10% {
+        background: #1C2435;
+    }
+
+    100% {
+        background: none;
+    }
+}
+
+@keyframes disabled-bg {
+    0% {
+        background: #1C2435;
+    }
+
+    30% {
+        background: rgba($color: #1C2435, $alpha: .99);
+    }
+
+    100% {
+        background: rgba($color: #1C2435, $alpha: .95);
+    }
+}
+
+@keyframes disabled-filter {
+    0% {
+        backdrop-filter: blur(0);
+        background: none;
+    }
+
+    100% {
+        background: rgba($color: #1C2435, $alpha: .6);
+        backdrop-filter: blur(4px);
+    }
+}
+
+html {
+    background: #1C2435;
+}
+
+.wrapper {
+    &.open {
+        &::before {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 10;
+            animation: enabled-bg .4s;
+        }
+    }
+
+    &.disabled {
+        background: url('../../../public/images/bg.png') no-repeat center;
+        background-size: cover;
+        z-index: 0;
+        display: flex;
+        min-height: 100vh;
+
+        &::before {
+            content: '';
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            background: rgba($color: #1C2435, $alpha: .95);
+            z-index: 15;
+            animation: disabled-bg 1s;
+        }
+    }
+
+    &.open_filter {
+        &::before {
+            content: '';
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            background: rgba($color: #1C2435, $alpha: .6);
+            backdrop-filter: blur(4px);
+            z-index: 25;
+            animation: disabled-filter .5s;
+        }
+    }
+}

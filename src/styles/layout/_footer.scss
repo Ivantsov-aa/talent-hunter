@@ -1,0 +1,79 @@
+footer {
+    padding-top: 40px;
+    background: #fff;
+
+    .footer__content {
+        padding-bottom: 40px;
+        border-bottom: 1px solid #525252;
+
+        .footer__flex {
+            max-width: 1140px;
+            @include flex-params (row, space-between, flex-start);
+            margin: auto;
+
+            >section {
+                &:first-child {
+                    max-width: 180px;
+
+                    img {
+                        width: 180px;
+                        margin-bottom: 22px;
+                    }
+
+                    p {
+                        @include font-params (400, 11px, 15px);
+                    }
+                }
+
+                li {
+                    @include font-params (600, 12px, 35px);
+                    text-transform: uppercase;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #0094FF;
+                    }
+                }
+
+                &.our-social-network {
+                    h3 {
+                        @include font-params (600, 15px, 35px);
+                        margin-bottom: 13px;
+                    }
+
+                    .social-links {
+                        @include flex-params (row, flex-end, center);
+
+                        a {
+                            display: block;
+                            width: 34px;
+                            height: 34px;
+                            margin-right: 14px;
+                            background: url('../../../public/images/vk-icon.svg') no-repeat center;
+                            background-size: contain;
+
+                            &:last-child {
+                                background: url('../../../public/images/tg-icon.svg') no-repeat center;
+                                margin-right: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer__sub {
+        text-align: center;
+        padding: 20px 0;
+
+        span {
+            @include font-params (400, 14px, 25px);
+            margin-right: 59px;
+
+            &:last-child {
+                margin: 0;
+            }
+        }
+    }
+}

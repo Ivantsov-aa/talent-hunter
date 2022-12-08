@@ -1,0 +1,200 @@
+.casting__wrapper {
+    color: #353535;
+
+    .grid__wrapper {
+        display: grid;
+        grid-template-columns: 497px 220px;
+        gap: 23px;
+        margin-bottom: 20px;
+
+
+        .casting_title {
+            @include flex-params (row, flex-start, flex-start);
+            height: 130px;
+
+            >div {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            h3 {
+                @include font-params (600, 16px, 20px);
+            }
+
+            p {
+                @include font-params (400, 12px, 15px);
+            }
+
+            button {
+                padding: 10px;
+                border-radius: 10px;
+                @include font-params (600, 12px, 15px);
+                margin-right: 10px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            .casting_image {
+                position: relative;
+                margin-right: 20px;
+
+                img {
+                    width: 230px;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 20px;
+                }
+
+                .brand_logo {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    background: #fff;
+                }
+            }
+        }
+
+        .casting_desc {
+            background: linear-gradient(#F8F8F8 60%, #c0c0c0 100%);
+            width: 100%;
+            border-radius: 15px;
+            padding: 20px;
+            max-height: 419px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s;
+
+            &.full {
+                max-height: 1000px;
+                background: linear-gradient(#F8F8F8 60%, #f8f8f8 100%);
+            }
+
+            .responses {
+                padding: 10px;
+                border-radius: 15px;
+                background: #fff;
+                @include flex-params (row, flex-start, center);
+                width: max-content;
+                margin-bottom: 10px;
+
+                div {
+                    margin-right: 10px;
+
+                    p {
+                        @include font-params (600, 14px, 18px);
+
+                        span {
+                            font-weight: 500;
+                            color: #0094FF;
+                        }
+                    }
+
+                    &:last-child {
+                        @include flex-params (row, flex-start, center);
+                        margin-right: 0;
+
+                        img {
+                            width: 30px;
+                            margin-left: -5px;
+
+                            &:first-child {
+                                margin-left: 0;
+
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            .full_desc {
+                h4 {
+                    @include font-params (600, 14px, 18px);
+                }
+
+                p {
+                    @include font-params (500, 12px, 15px);
+                    margin-bottom: 10px;
+                }
+            }
+
+            button {
+                padding: 5px 0;
+                @include font-params (600, 12px, 15px);
+                background: none;
+                background: linear-gradient(#c8c8c8 0%, #c0c0c0 100%);
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                transition: all 0.5s;
+
+                &:hover {
+                    color: #353535;
+                }
+            }
+        }
+
+        .short_desc {
+            padding: 0;
+
+            p {
+                @include font-params (600, 14px, 18px);
+                margin-bottom: 10px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .casting__photos {
+            img {
+                width: 100%;
+                height: 130px;
+                object-fit: cover;
+                border-radius: 20px;
+                margin-bottom: 10px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .similar_castings {
+        h3 {
+            margin-bottom: 10px;
+        }
+
+        .flex__wrapper {
+            justify-content: space-between;
+
+            a {
+                display: block;
+                width: 180px;
+
+                img {
+                    width: 100%;
+                }
+
+                p {
+                    color: #353535;
+                    @include font-params (600, 12px, 15px);
+                
+                    &:last-child {
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,159 @@
+.profile__wrapper {
+    .user_title {
+        align-items: flex-start;
+        margin-bottom: 30px;
+
+        >div {
+            @include flex-params (row, flex-start, flex-start);
+        }
+
+        .profile_avatar {
+            position: relative;
+            margin-right: 15px;
+
+            p {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                border-radius: 50%;
+                background: rgba($color: #fff, $alpha: .95);
+                width: 80px;
+                height: 80px;
+                color: #000;
+                @include font-params (500, 13px, 15px);
+                text-align: center;
+                padding-top: 18px;
+
+                span {
+                    display: block;
+                    @include font-params (500, 20px, 24px);
+                }
+            }
+
+            img {
+                width: 300px;
+            }
+        }
+
+        .profile_content {
+            @include flex-params (column, flex-start, flex-start);
+
+            .statistic {
+                @include flex-params (row, flex-start, center);
+                margin-bottom: 13px;
+
+                p {
+                    @include font-params (700, 12px, 15px);
+                    margin-bottom: 5px;
+                    margin-right: 30px;
+
+                    span {
+                        @include font-params (700, 16px, 20px);
+                        display: block;
+                    }
+                }
+            }
+
+            h1 {
+                margin-bottom: 10px;
+            }
+
+            h3 {
+                @include font-params (600, 14px, 18px);
+                margin-bottom: 15px;
+            }
+
+            >p {
+                @include font-params (400, 15px, 18px);
+                margin-bottom: 20px;
+            }
+
+            .social_network {
+                @include flex-params (row, flex-start, center);
+                margin-bottom: 20px;
+
+                a {
+                    display: block;
+                    height: 30px;
+                    width: 30px;
+
+                    img {
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+            }
+
+            .categories {
+
+                button {
+                    width: 100px;
+                    height: 30px;
+                    border-radius: 20px;
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+
+    >div {
+        margin-bottom: 30px;
+
+        .upload_post {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            width: 80px;
+
+            &::before {
+                content: '+';
+                @include font-params (300, 60px, 60px);
+                display: block;
+                color: #979797;
+                text-align: center;
+                display: block;
+                width: 74px;
+                padding: 7px 0;
+                border: 3px solid #979797;
+                border-radius: 50%;
+                margin-bottom: 10px;
+                background-size: contain;
+            }
+
+            input {
+                opacity: 0;
+                position: absolute;
+                z-index: -1;
+            }
+        }
+    }
+
+    nav {
+        @include flex-params (row, center, center);
+        border-top: 1px solid #979797;
+        border-bottom: 1px solid #979797;
+        height: 70px;
+        box-sizing: content-box;
+        margin-bottom: 40px;
+
+        a {
+            display: block;
+            height: 72px;
+            padding: 0 60px;
+            display: flex;
+            transition: .3s;
+
+            svg {
+                align-self: center;
+                fill: #979797;
+                transition: .3s;
+            }
+
+            &.active {
+                svg {
+                    fill: #1C2435;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,348 @@
+.main__about-us__wrapper {
+    position: relative;
+
+    .slider__wrapper {
+        margin-bottom: 120px;
+        height: 412px;
+
+        .slick-track {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            height: 364px;
+            margin-bottom: 30px;
+
+            .slick-slide {
+                width: 600px !important;
+                text-align: center;
+                height: 317px;
+                transition: 0.3s;
+
+                >div {
+                    width: 600px;
+                    position: relative;
+                }
+
+                .about-us__container {
+                    width: 470px !important;
+                    height: 317px !important;
+                    padding: 17px;
+                    border: 1px solid #FFFFFF;
+                    border-radius: 4px;
+                    transition: .3s;
+
+                    img {
+                        width: 436px;
+                        height: 283px;
+                        object-fit: cover;
+                        transition: .3s;
+                    }
+                }
+
+                &.slick-center {
+                    width: 600px !important;
+                    height: 364px;
+
+                    .about-us__container {
+                        padding: 12px;
+                        width: 600px !important;
+                        height: 360px !important;
+
+                        img {
+                            height: 336px !important;
+                            width: 576px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .slider__control {
+        @include flex-params (row, center, center);
+
+        button {
+            width: 48px;
+            height: 48px;
+            background: url('../../../../public/images/main/about-us/slider-arrow.svg') no-repeat center;
+            margin-right: 32px;
+
+            &.next-slide {
+                transform: rotate(180deg);
+                margin: 0;
+            }
+        }
+    }
+
+    .customers__wrapper,
+    .performers__wrapper {
+        @include flex-params (row, space-between, flex-start);
+        max-width: 1140px;
+        margin: auto;
+        margin-bottom: 120px;
+        color: #fff;
+        position: relative;
+
+        .performers__description {
+            padding-top: 50px;
+            margin-right: 60px;
+            max-width: 60%;
+        }
+
+        .customers__description {
+            padding-top: 19px;
+            max-width: 60%;
+        }
+
+        h2 {
+            @include font-params (600, 40px, 50px);
+            margin-bottom: 25px;
+        }
+
+        p {
+            @include font-params (400, 16px, 22px);
+            margin-bottom: 30px;
+        }
+
+        button {
+            color: #FFF;
+            width: 150px;
+            height: 30px;
+            @include font-params (600, 14px, 18px);
+        }
+
+        .customers_bg {
+            position: relative;
+            max-width: 40%;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+
+                &:last-child {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    transform: translate(-75%, 10%);
+                    height: auto;
+                    max-height: 430px;
+                }
+            }
+        }
+
+        .performers_bg {
+            position: relative;
+            right: 0;
+            max-width: 528px;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+
+    .performers__wrapper {
+        margin: 0 auto;
+    }
+
+    .presentation__wrapper {
+        color: #FFF;
+
+        &:first-child {
+            margin: auto;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        h2 {
+            @include font-params (600, 30px, 40px);
+            margin-bottom: 25px;
+        }
+
+        p {
+            @include font-params (400, 16px, 25px);
+            margin-bottom: 30px;
+        }
+
+        button {
+            color: #FFF;
+            width: 150px;
+            height: 30px;
+            @include font-params (600, 14px, 18px);
+        }
+
+        img {
+            border-radius: 4px
+        }
+
+        .castings__wrapper {
+            @include flex-params (row, center, flex-start);
+            max-width: 1240px;
+            margin: auto;
+            margin-bottom: 50px;
+
+            p {
+                margin-bottom: 65px;
+            }
+
+            .castings__description {
+                padding-top: 50px;
+            }
+
+            .castings_bg {
+                position: relative;
+                margin-right: 60px;
+                max-width: 684px;
+
+                img {
+                    height: 500px;
+                }
+            }
+        }
+    }
+
+    .benefits__wrapper {
+        max-width: 1240px;
+        margin: auto;
+        color: #FFF;
+        text-align: center;
+        margin-bottom: 80px;
+
+        h2 {
+            @include font-params (600, 30px, 40px);
+            margin-bottom: 30px;
+        }
+
+        p {
+            @include font-params (400, 16px, 22px);
+        }
+
+        .benefits__list {
+            @include flex-params (row, space-between, center);
+
+            .benefit__container {
+                border: 1px solid #FFFFFF;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+                border-radius: 4px;
+                padding: 30px 25px;
+                max-width: 235px;
+                margin-right: 20px;
+
+                &:last-child {
+                    margin: 0;
+                }
+
+                &:hover {
+                    border-color: #0094FF;
+                    color: #0094FF;
+                }
+
+                .benefit_logo {
+                    width: 80px;
+                    height: 80px;
+                    margin: auto;
+                    border-radius: 50%;
+                    background: #FFF;
+                    margin-bottom: 25px;
+                }
+            }
+        }
+    }
+
+    .reviews__wrapper {
+        max-width: 1240px;
+        margin: auto;
+        @include flex-params (row, flex-start, flex-start);
+        color: #FFF;
+        margin-bottom: 93px;
+        position: relative;
+
+        .reviews__description {
+
+            h2 {
+                @include font-params (600, 30px, 40px);
+                margin-bottom: 30px;
+                text-transform: uppercase;
+            }
+
+            p {
+                @include font-params (500, 16px, 25px);
+            }
+
+            .reviews-slider__wrapper {
+                color: #000;
+
+                .slick-slider {
+                    position: absolute;
+                    bottom: 47px;
+                    max-width: 661px;
+                    left: 42%;
+                }
+
+                .slick-list {
+                    height: 315px;
+
+                    .slick-slide {
+                        width: 481px !important;
+
+                        .review__container {
+                            max-width: 437px;
+                            padding: 29px 60px;
+                            background-color: #FFF;
+                            border: 1px solid #E5E5E5;
+                            border-radius: 10px;
+                            text-align: center;
+
+                            h3 {
+                                margin-bottom: 21px;
+                                @include font-params (600, 16px, 22px);
+                            }
+
+                            p {
+                                @include font-params (300, 13px, 18px);
+                                position: relative;
+
+                                span {
+                                    display: block;
+                                    color: #0094FF;
+                                    position: absolute;
+                                    width: 22px;
+                                    height: 18px;
+                                    background: url('../../../../public/images/main/about-us/review-icon.svg') no-repeat center;
+                                    background-size: 18px;
+                                    top: -15px;
+                                    left: -10px;
+                                }
+                            }
+
+                            img {
+                                margin: auto;
+                                height: 100px;
+                                margin-bottom: 22px;
+                            }
+                        }
+                    }
+                }
+
+                .slider__control {
+                    max-width: 128px;
+                    position: absolute;
+                    bottom: -20px;
+                    right: 25%;
+                    transform: translateX(25%);
+                }
+            }
+        }
+
+        .reviews_bg {
+            position: relative;
+            max-width: 663px;
+            margin-right: 60px;
+
+            img {
+                height: 700px;
+            }
+        }
+    }
+}

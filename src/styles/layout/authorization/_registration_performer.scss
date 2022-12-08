@@ -1,0 +1,419 @@
+.performer__direction-choice {
+
+    >button {
+        position: relative;
+        width: 100%;
+        height: 115px;
+        background: url('../../../../public/images/performer-bg.jpg') no-repeat center;
+        background-size: cover;
+        background-position-y: -20px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+        z-index: 0;
+        cursor: pointer;
+
+        &::before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba($color: #1C2435, $alpha: .6);
+            border-radius: 20px;
+            z-index: 0;
+            transition: 0.5s;
+        }
+
+        &:last-child {
+            margin: 0;
+            background: #0094FF;
+            height: 60px;
+            width: 250px;
+            border-radius: 90px;
+            @include font-params (600, 20px, 24px);
+
+            &::before {
+                display: none;
+            }
+        }
+
+        p {
+            z-index: 10;
+            position: absolute;
+            width: 300px;
+            text-align: end;
+            top: 50%;
+            left: 50%;
+            transform: translate(-20%, -50%);
+            font-weight: 900;
+            font-size: 35px;
+            color: #fff;
+            transition: 0.5s;
+        }
+
+        &:hover {
+            &::before {
+                background: none;
+            }
+
+            p {
+                scale: 1.05;
+            }
+        }
+    }
+}
+
+.performer__container {
+    .customer__wrapper {
+        .customer__title {
+            @include flex-params (row !important, center !important, center !important);
+            position: relative;
+            margin-bottom: 60px !important;
+
+            .steps_circle {
+                position: absolute;
+                left: -40px;
+            }
+
+            h1 {
+                margin: 0;
+                align-self: center;
+
+                span {
+                    color: #0094FF;
+                    margin-left: 30px;
+                }
+            }
+        }
+
+        .date_label {
+
+            input[type='date'] {
+                display: flex;
+                flex-direction: row-reverse;
+                padding-left: 32px;
+            }
+
+            input[type='date']::-webkit-calendar-picker-indicator {
+                margin-right: 10px;
+                width: 25px;
+                height: 25px;
+            }
+        }
+
+        .radio_input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            width: 540px;
+            border: 1px solid #353535;
+            border-radius: 20px;
+            padding: 0 32px;
+            @include font-params (500, 16px, 22px);
+            margin-bottom: 30px;
+
+            >div {
+                display: flex;
+            }
+
+            label {
+                display: flex;
+                align-items: center;
+                padding: 0;
+                margin-right: 20px;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    border: 1px solid #353535;
+                    vertical-align: middle;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                    background: url('../../../../public/images/icons/select-point-icon.svg') no-repeat center;
+                    background-size: 0;
+                    transition: 0.1s;
+                }
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+            input {
+                margin: 0;
+                margin-right: 10px;
+                opacity: 0;
+                position: absolute;
+                z-index: -1;
+            }
+
+            input:checked+label {
+                &::before {
+                    background-size: 10px;
+                }
+            }
+        }
+
+        .select__wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            width: 540px;
+            border: 1px solid #353535;
+            border-radius: 20px;
+            padding: 0 32px;
+            @include font-params (500, 16px, 22px);
+            margin-bottom: 30px;
+
+            &.radio {
+                >div {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+
+                    >div {
+                        display: flex;
+                        margin-right: 10px;
+
+                        select {
+                            max-width: 120px;
+                        }
+                    }
+
+                    label {
+                        padding: 0;
+                        display: flex;
+                        align-items: center;
+                        position: relative;
+
+                        &::before {
+                            content: '';
+                            display: inline-block;
+                            width: 20px;
+                            height: 20px;
+                            border: 1px solid #353535;
+                            vertical-align: middle;
+                            border-radius: 50%;
+                            margin-right: 10px;
+                            background: url('../../../../public/images/icons/select-point-icon.svg') no-repeat center;
+                            background-size: 0;
+                            transition: 0.1s;
+                        }
+                    }
+
+                    input {
+                        margin: 0;
+                        margin-right: 10px;
+                        opacity: 0;
+                        z-index: -1;
+                        position: absolute;
+                    }
+
+                    input:checked+label {
+                        &::before {
+                            background-size: 10px;
+                        }
+                    }
+                }
+            }
+
+            select {
+                border: none;
+                outline: none;
+
+                option {
+                    border: none;
+                    text-align: end;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .flex__wrapper {
+            input {
+                margin-bottom: 0;
+            }
+        }
+
+        .select_group__wrapper {
+            display: grid;
+            grid-template-columns: 250px 250px;
+            gap: 30px 40px;
+            margin-bottom: 30px;
+
+            div {
+                position: relative;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: 37px;
+                    top: 25px;
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    background: url('../../../../public/images/icons/select-arrow-icon.svg') no-repeat center;
+                    background-size: contain;
+                }
+            }
+
+            select {
+                width: 100%;
+                height: 60px;
+                border: 1px solid #353535;
+                border-radius: 20px;
+                outline: none;
+                padding: 0 32px;
+                appearance: none;
+            }
+        }
+    }
+
+    .add_media {
+        div {
+            @include flex-params (row, flex-start, center);
+            margin-top: 15px;
+
+            &:nth-child(2) {
+                align-items: flex-start;
+            }
+
+            img {
+                width: 30px;
+                height: 30px;
+                object-fit: cover;
+                margin-right: 10px;
+            }
+
+            &:last-child {
+                margin-bottom: 30px;
+            }
+
+            label {
+                display: flex;
+                align-items: center;
+                position: relative;
+                margin-right: 15px;
+                max-width: 226px;
+                height: 100%;
+                @include font-params (500 !important, 14px !important, 20px !important);
+
+                &::after {
+                    content: '';
+                    display: inline-block;
+                    width: 9px;
+                    height: 9px;
+                    background: url('../../../../public/images/icons/add-media-icon.svg') no-repeat center;
+                    background-size: 8px;
+                    vertical-align: middle;
+                    margin-left: 10px;
+                }
+
+                input {
+                    max-width: 100%;
+                    opacity: 0;
+                    position: absolute;
+                    margin: 0 !important;
+                }
+            }
+        }
+
+        .audio__wrapper {
+            display: flex;
+            flex-direction: column;
+            margin: 0 !important;
+
+            audio {
+                outline: none;
+                margin-bottom: 10px;
+                // max-width: 230px;
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+        }
+
+        video {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    .soft_skills {
+        @include flex-params (column, flex-start, center);
+
+        >section {
+            padding: 0 !important;
+            margin-bottom: 30px;
+
+            p {
+                @include font-params (600, 16px, 20px);
+                margin: 0 0 20px;
+            }
+
+            &:first-child {
+                margin-bottom: 20px;
+            }
+
+            >div {
+                display: grid;
+                grid-template-columns: 250px 250px;
+                gap: 10px 40px;
+                margin-top: 15px;
+
+                div {
+                    display: flex;
+                    align-items: center;
+
+                    >label {
+                        position: relative;
+                        cursor: pointer;
+                        padding: 0 !important;
+                        color: rgba(53, 53, 53, 0.5);
+                        @include font-params (500 !important, 14px !important, 20px !important);
+
+                        &::before {
+                            content: '';
+                            display: inline-block;
+                            width: 20px;
+                            height: 20px;
+                            border: 1px solid #353535;
+                            vertical-align: middle;
+                            border-radius: 50%;
+                            margin-right: 10px;
+                            background: url('../../../../public/images/icons/select-point-icon.svg') no-repeat center;
+                            background-size: 0;
+                            transition: 0.1s;
+                        }
+                    }
+
+                    input {
+                        opacity: 0;
+                        position: absolute;
+                        z-index: -1;
+                        margin: 0 !important;
+                        margin-top: 1px !important;
+                        margin-right: 10px !important;
+                    }
+                }
+
+
+                input:checked+label {
+                    color: #353535 !important;
+                    font-weight: 600 !important;
+
+                    &::before {
+                        background-size: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

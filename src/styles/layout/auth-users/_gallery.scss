@@ -1,0 +1,191 @@
+.gallery__wrapper {
+    color: hsl(0, 0%, 21%);
+
+    .gallery__navigation {
+        @include flex-params (row, space-between, center);
+        margin-bottom: 30px;
+
+        nav {
+            margin: 0;
+        }
+
+        div {
+            button {
+                height: 30px;
+                width: 180px;
+                margin-right: 20px;
+                @include font-params (600, 12px, 15px);
+
+                &:last-child {
+                    margin: 0;
+                }
+
+                &:hover {
+                    background: #25292E;
+                }
+            }
+        }
+    }
+
+    .gallery__category {
+        margin-bottom: 20px;
+
+        button {
+            &:hover {
+                background: #25292E;
+            }
+        }
+
+        &:last-child {
+            margin: 0;
+        }
+
+        .grid__container {
+            display: grid;
+            grid-template-columns: repeat(3, 227px);
+            gap: 18px;
+
+            section {
+                cursor: pointer;
+
+                .main_pic {
+                    width: 100%;
+                    margin-bottom: 10px;
+                }
+
+                .video_preview {
+                    position: relative;
+
+                    .play_icon {
+                        width: 50px;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+
+                .gallery__footer-card {
+                    @include flex-params (row, space-between, center);
+                    padding: 0 5px;
+
+                    >div {
+                        @include flex-params (row, flex-start, center);
+
+                        img {
+                            margin-right: 5px;
+                        }
+                    }
+
+                    img {
+                        width: 35px;
+                    }
+
+                    p {
+                        @include font-params (600, 14px, 16px);
+                    }
+
+                    button {
+                        width: 30px;
+                        height: 30px;
+
+                        &.delete-btn {
+                            width: 70px;
+                            height: 30px;
+                            @include font-params (600, 12px, 15px);
+                        }
+
+                        img {
+                            width: 15px;
+                        }
+                    }
+                }
+            }
+        }
+
+        h3 {
+            @include font-params (600, 18px, 24px);
+            margin-bottom: 15px;
+        }
+
+        .audio__container {
+            .audio_track {
+                @include flex-params (row, space-between, center);
+                margin-bottom: 20px;
+                padding: 5px 10px;
+                border-radius: 50px;
+
+                &:hover {
+                    background: #F1F1F190;
+                }
+
+                &.active {
+                    background: #F1F1F1;
+
+                    .audio__controls {
+                        button {
+                            background: #fff;
+
+                            &:first-child {
+                                background: #0094FF;
+
+                                svg {
+                                    padding-left: 0;
+
+                                    path {
+                                        fill: #fff;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &:last-child {
+                    margin: 0;
+                }
+
+                .audio_title {
+                    @include flex-params (row, flex-start, center);
+
+                    img {
+                        width: 40px;
+                        margin-right: 10px;
+                    }
+
+                    p {
+                        @include font-params (600, 16px, 20px);
+                    }
+                }
+
+                .audio__controls {
+                    @include flex-params (row, flex-start, center);
+
+                    button {
+                        @include flex-params (row, center, center);
+                        background: #F1F1F1;
+                        width: 40px;
+                        height: 40px;
+                        margin-right: 15px;
+                        transition: all 0.2s;
+
+                        svg {
+                            width: 17px;
+                            height: 17px;
+                        }
+
+                        &:first-child {
+                            svg {
+                                padding-left: 3px;
+                            }
+                        }
+
+                        &:last-child {
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
