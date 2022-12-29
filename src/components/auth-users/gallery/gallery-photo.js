@@ -1,10 +1,9 @@
 import React from "react"
 
-class GalleryPhoto extends React.Component {
-    render() {
-        return (
-            <section className='gallery__container'>
-                <section className='gallery__category'>
+const GalleryPhoto = ({ gallery }) => {
+    return (
+        <section className='gallery__container'>
+            {/* <section className='gallery__category'>
                     <h3>АЛЬБОМЫ</h3>
                     <section className='grid__container'>
                         <section>
@@ -64,24 +63,20 @@ class GalleryPhoto extends React.Component {
                             </div>
                         </section>
                     </section>
-                </section>
-                <section className='gallery__category'>
-                    <h3>ВСЕ ФОТОГРАФИИ</h3>
-                    <section className='grid__container'>
-                        <section>
-                            <img className='main_pic' src='/images/main/gallery-logo.png' alt='gallery-logo' />
+                </section> */}
+            <section className='gallery__category'>
+                <h3>ВСЕ ФОТОГРАФИИ</h3>
+                <section className='grid__container'>
+                    {gallery && gallery.split(', ').map((image, i) => {
+                        let imgPath = image.split('...').join('/');
+                        return image !== 'null' && <section key={i}>
+                            <img className='main_pic' src={`https://${imgPath}`} alt='gallery-logo' />
                         </section>
-                        <section>
-                            <img className='main_pic' src='/images/main/gallery-logo.png' alt='gallery-logo' />
-                        </section>
-                        <section>
-                            <img className='main_pic' src='/images/main/gallery-logo.png' alt='gallery-logo' />
-                        </section>
-                    </section>
+                    })}
                 </section>
             </section>
-        )
-    }
+        </section>
+    )
 }
 
 export default GalleryPhoto;

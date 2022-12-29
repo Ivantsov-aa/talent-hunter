@@ -1,0 +1,213 @@
+@media only screen and (max-width: 767px) {
+    .gallery__wrapper {
+        color: hsl(0, 0%, 21%);
+
+        .user_title {
+            margin-bottom: 20px;
+        }
+
+        .gallery__navigation {
+            @include flex-params (column, space-between, center);
+            margin-bottom: 20px;
+
+            nav {
+                @include flex-params (row, space-between, center);
+                margin: 0;
+                margin-bottom: 20px;
+                width: 100%;
+
+                a {
+                    margin-right: 0;
+                }
+            }
+
+            div {
+                @include flex-params (row, space-between, center);
+                width: 100%;
+
+                label {
+                    display: block;
+                    background: #0094FF;
+                    border-radius: 20px;
+                    height: 30px;
+                    width: 160px;
+                    margin-right: 0;
+                    @include font-params (600, 12px, 15px);
+
+                    &:last-child {
+                        margin: 0;
+                    }
+
+                    &:hover {
+                        background: #25292E;
+                    }
+                }
+            }
+        }
+
+        .gallery__category {
+            margin-bottom: 20px;
+
+            button {
+                &:hover {
+                    background: #25292E;
+                }
+            }
+
+            &:last-child {
+                margin: 0;
+            }
+
+            .grid__container {
+                display: grid;
+                grid-template-columns: auto;
+                gap: 18px;
+
+                section {
+                    cursor: pointer;
+
+                    .main_pic {
+                        width: 100%;
+                        margin-bottom: 10px;
+                    }
+
+                    .video_preview {
+                        position: relative;
+
+                        .play_icon {
+                            width: 50px;
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+
+                    .gallery__footer-card {
+                        @include flex-params (row, space-between, center);
+                        padding: 0 5px;
+
+                        >div {
+                            @include flex-params (row, flex-start, center);
+
+                            img {
+                                margin-right: 5px;
+                            }
+                        }
+
+                        img {
+                            width: 35px;
+                        }
+
+                        p {
+                            @include font-params (600, 14px, 16px);
+                        }
+
+                        button {
+                            width: 30px;
+                            height: 30px;
+
+                            &.delete-btn {
+                                width: 70px;
+                                height: 30px;
+                                @include font-params (600, 12px, 15px);
+                            }
+
+                            img {
+                                width: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            h3 {
+                @include font-params (600, 18px, 24px);
+                margin-bottom: 15px;
+            }
+
+            .audio__container {
+                .audio_track {
+                    @include flex-params (column, space-between, center);
+                    margin-bottom: 20px;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+
+                    &:hover {
+                        background: #F1F1F190;
+                    }
+
+                    &.active {
+                        background: #F1F1F1;
+
+                        .audio__controls {
+                            button {
+                                background: #fff;
+
+                                &:first-child {
+                                    background: #0094FF;
+
+                                    svg {
+                                        padding-left: 0;
+
+                                        path {
+                                            fill: #fff;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    &:last-child {
+                        margin: 0;
+                    }
+
+                    .audio_title {
+                        @include flex-params (row, flex-start, center);
+                        width: 100%;
+                        margin-bottom: 10px;
+
+                        img {
+                            width: 40px;
+                            margin-right: 10px;
+                        }
+
+                        p {
+                            @include font-params (600, 16px, 20px);
+                        }
+                    }
+
+                    .audio__controls {
+                        @include flex-params (row, flex-end, center);
+                        width: 100%;
+
+                        button {
+                            @include flex-params (row, center, center);
+                            background: #F1F1F1;
+                            width: 30px;
+                            height: 30px;
+                            margin-right: 15px;
+                            transition: all 0.2s;
+
+                            svg {
+                                width: 17px;
+                                height: 17px;
+                            }
+
+                            &:first-child {
+                                svg {
+                                    padding-left: 3px;
+                                }
+                            }
+
+                            &:last-child {
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

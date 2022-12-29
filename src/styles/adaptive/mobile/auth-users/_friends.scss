@@ -1,0 +1,16 @@
+@media only screen and (max-width: 767px) {
+    .friends__wrapper {
+        h1 {
+            display: none;
+        }
+
+        .filter_bar {
+            flex-direction: column-reverse !important;
+            margin-bottom: 0 !important;
+
+            .search_field {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}

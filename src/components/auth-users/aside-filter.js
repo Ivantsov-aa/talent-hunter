@@ -37,7 +37,10 @@ class AsideFilter extends React.Component {
 
         return (
             <section className={`aside-filter__wrapper ${stateAsideFilter ? 'active' : ''}`} ref={this.setWrapperRef}>
-                <Link to={`castings/add/${castingsLength + 1}`} onClick={() => setStateAsideFilter(false)}>Добавить кастинг</Link>
+                <Link to='castings/add' onClick={() => {
+                    setStateAsideFilter(false)
+                    document.body.style.overflowY = 'scroll';
+                }}>Добавить кастинг</Link>
                 <button>Моя анкета</button>
                 <button>Мои кастинги</button>
                 <button>Отклики на кастинг</button>

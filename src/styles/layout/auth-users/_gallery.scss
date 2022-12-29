@@ -10,7 +10,18 @@
         }
 
         div {
-            button {
+            input {
+                position: absolute;
+                opacity: 0;
+                z-index: -1;
+            }
+
+            label {
+                cursor: pointer;
+                @include flex-params(row, center, center);
+                color: #fff;
+                background: #0094FF;
+                border-radius: 20px;
                 height: 30px;
                 width: 180px;
                 margin-right: 20px;
@@ -43,14 +54,51 @@
         .grid__container {
             display: grid;
             grid-template-columns: repeat(3, 227px);
-            gap: 18px;
+            gap: 20px;
+
+            .casting_video {
+                height: 170px;
+
+                &.paused {
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 20px;
+                        top: 0;
+                        left: 0;
+                        background: rgba(0, 0, 0, .4);
+                    }
+
+                    svg {
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        z-index: 10;
+                    }
+                }
+
+                video {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 20px;
+                }
+            }
 
             section {
                 cursor: pointer;
 
                 .main_pic {
                     width: 100%;
-                    margin-bottom: 10px;
+                    height: 170px;
+                    border-radius: 20px;
+                    object-fit: cover;
                 }
 
                 .video_preview {

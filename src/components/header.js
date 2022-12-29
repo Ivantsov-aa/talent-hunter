@@ -70,6 +70,7 @@ class Header extends React.Component {
                             <button className={`hamburger-button ${stateHamburgerMenu ? (!isLogged ? 'open' : (mobileAside ? 'open' : '')) : ''}`} onClick={() => {
                                 this.handleHamburgerClick(!stateHamburgerMenu)
                                 stateMobileAside(true);
+                                document.body.style.overflowY = 'hidden';
                             }}>
                                 <span></span>
                                 <span></span>
@@ -154,7 +155,7 @@ class Header extends React.Component {
                             </div>
                             <div className='header_buttons'>
                                 <Link to='/registration'>Регистрация</Link>
-                                <Link to='/registration'>Войти</Link>
+                                <Link to='/auth'>Войти</Link>
                             </div>
                         </nav>
                     </div>

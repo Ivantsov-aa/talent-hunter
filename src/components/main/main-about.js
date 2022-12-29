@@ -1,6 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import ReviewsSlider from "./reviews-slider";
+import { Link } from "react-router-dom";
 
 const benefits = [
     'Тут мы придумаем 5 уникальных приемуществ над конкурентами, а не стандартный подход',
@@ -99,7 +100,7 @@ class MainAboutUs extends React.Component {
                         <div className='customers__description'>
                             <h2>TALENT HUNTERS - это качественные заказчики</h2>
                             <p>Если вы профессиональный актер или любитель, ведущий или вокалист, аниматор или модель, если вы хотите пройти кастинг на роль в популярном сериале или фильме, рекламе и телепередаче, то Talent Hunter поможет реализовать ваши самые интересные задумки. </p>
-                            <button>Присоединиться</button>
+                            <Link to='/registration'>Присоединиться</Link>
                         </div>
                         <div className='customers_bg'>
                             <img src='/images/main/about-us/talent-bg-1.png' alt='talent-bg-1' />
@@ -113,7 +114,7 @@ class MainAboutUs extends React.Component {
                         <div className='castings__description'>
                             <h2>TALENT HUNTERS - это качественные заказчики</h2>
                             <p>Если вы профессиональный актер или любитель, ведущий или вокалист, аниматор или модель, если вы хотите пройти кастинг на роль в популярном сериале или фильме, рекламе и телепередаче, то Talent Hunter поможет реализовать ваши самые интересные задумки. </p>
-                            <button>Присоединиться</button>
+                            <Link to='/registration'>Присоединиться</Link>
                         </div>
                     </section>
                 </div>
@@ -161,7 +162,7 @@ class MainAboutUs extends React.Component {
                     <div className='performers__description'>
                         <h2>TALENT HUNTERS - это лучшие исполнители</h2>
                         <p>Если вы профессиональный актер или любитель, ведущий или вокалист, аниматор или модель, если вы хотите пройти кастинг на роль в популярном сериале или фильме, рекламе и телепередаче, то Talent Hunter поможет реализовать ваши самые интересные задумки. </p>
-                        <button>Присоединиться</button>
+                        <Link to='/registration'>Присоединиться</Link>
                     </div>
                     <div className='performers_bg'>
                         <img src='/images/main/about-us/performers-bg.png' alt='talent-bg-1' />

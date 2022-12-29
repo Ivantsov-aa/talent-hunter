@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import Lottie from "lottie-react";
 import applyIcon from '../../assets/apply-icon.json';
@@ -9,9 +9,10 @@ import applyIcon from '../../assets/apply-icon.json';
 import UploadPhotoPopUp from "./upload-photo-pop-up";
 
 
-const RegistrationCustomer = ({ navigate, registrationSubmit }) => {
+const RegistrationCustomer = ({ navigate, authorizationSubmit }) => {
     const [stepCustomer, setStepCustomer] = useState(1);
     const [dasharray, setDasharray] = useState(null);
+    const [userData, setUserData] = useState(null);
 
     const {
         register,
@@ -27,19 +28,21 @@ const RegistrationCustomer = ({ navigate, registrationSubmit }) => {
         }, 100)
     }, [])
 
+    const location = useLocation();
+
     const onSubmit = (data) => {
         if (stepCustomer === 1) {
             setStepCustomer(2)
             setDasharray({ '--length-step-line': '251 0' });
         } else {
             setStepCustomer(3)
-            registrationSubmit(data, 'quastionnaire');
+            setUserData(data);
         }
     }
 
     const handlePrevStepClick = () => {
         if (stepCustomer === 1) {
-            navigate('/registration', { state: 'back'});
+            navigate('/registration', { state: 'back' });
         } else {
             setStepCustomer(stepCustomer - 1);
         }
@@ -78,7 +81,7 @@ const RegistrationCustomer = ({ navigate, registrationSubmit }) => {
                                                 className='phone_input'
                                                 placeholder='ADELE AGENCY'
                                                 autoFocus
-                                                {...register('brand_name')}
+                                                {...register('name')}
                                             />
                                         </label>
                                         <label>
@@ -87,7 +90,7 @@ const RegistrationCustomer = ({ navigate, registrationSubmit }) => {
                                                 type='text'
                                                 className='phone_input'
                                                 placeholder='Зальнова'
-                                                {...register('company_city')}
+                                                {...register('city')}
                                             />
                                         </label>
                                         <label>
@@ -96,7 +99,7 @@ const RegistrationCustomer = ({ navigate, registrationSubmit }) => {
                                                 type='text'
                                                 className='phone_input'
                                                 placeholder='Модельное агенство'
-                                                {...register('kind_activity')}
+                                                {...register('description')}
                                             />
                                         </label>
                                     </div>
@@ -109,7 +112,7 @@ const RegistrationCustomer = ({ navigate, registrationSubmit }) => {
                                                 type='text'
                                                 className='phone_input'
                                                 placeholder='www.agency.com'
-                                                {...register('website')}
+                                                {...register('url_site')}
                                             />
                                         </label>
                                         <label>
@@ -127,7 +130,7 @@ const RegistrationCustomer = ({ navigate, registrationSubmit }) => {
                                                 type='text'
                                                 className='phone_input'
                                                 placeholder='г. Москва, ул. Вавилова, д. 1'
-                                                {...register('company_address')}
+                                                {...register('address')}
                                             />
                                         </label>
                                     </div>
@@ -159,8 +162,11 @@ const RegistrationCustomer = ({ navigate, registrationSubmit }) => {
             </section>
             :
             <UploadPhotoPopUp
-                registrationSubmit={registrationSubmit}
-                navigate={navigate}
+                role='customer'
+                userData={{ phone: location.state, ...userData }}
+                url={location.state.url}
+                token={location.state.token}
+                authorizationSubmit={authorizationSubmit}
             />
     )
 }

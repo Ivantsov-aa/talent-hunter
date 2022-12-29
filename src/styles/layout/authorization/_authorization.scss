@@ -1,5 +1,5 @@
 .authorization__wrapper {
-    min-height: max-content !important;
+    @include flex-params (row, center, center);
 
     .auth_input {
         position: relative;

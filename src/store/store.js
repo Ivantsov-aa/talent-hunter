@@ -873,6 +873,28 @@ const store = {
             place: 'Москва',
             desc: '',
             date: '21 дек'
+        },
+        {
+            id: 6,
+            brand_logo: '/images/logoGradient.png',
+            spec_name: 'Фотомодель',
+            task: 'Фотосъемка для журнала',
+            gender: 'Женский',
+            category: 'Модель с тату',
+            add_info: '#голубыеглаза',
+            model_quantity: 2,
+            price: 5000,
+            start: '5 дек',
+            end: '14 дек',
+            proposals_date: 1,
+            title: 'Кастинг моделей для участия в показе причесок',
+            requirements: 'Фотосессия для автомобильного салона',
+            brand: 'ADEL',
+            main_pic: '/images/castings/casting_main.png',
+            pictures: ['/images/castings/casting_main.png', '/images/castings/casting_main.png', '/images/castings/casting_main.png'],
+            place: 'Москва',
+            desc: '',
+            date: '21 дек'
         }
     ]
 }

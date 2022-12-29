@@ -71,12 +71,9 @@
                 }
             }
 
-            .customer_content {
-                text-align: left;
-
+            .customer_content {                
                 label {
                     @include font-params (600, 15px, 22px);
-                    padding-left: 31px;
 
                     .PhoneInput {
                         margin-top: 19px;
@@ -84,10 +81,6 @@
 
                     .PhoneInputInput {
                         margin: 0;
-                    }
-
-                    input {
-                        margin-top: 10px;
                     }
                 }
             }

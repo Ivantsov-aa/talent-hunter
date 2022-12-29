@@ -97,8 +97,27 @@ class Aside extends React.Component {
         }
     }
 
-    handleStatusClick = () => {
-        this.setState({ stateStatus: true })
+    handleStatusClick = async (e) => {
+        const { statusValue } = this.state;
+        const { url, setAuthUser, token, authUser } = this.props;
+        if (this.state.stateStatus && e.which === 13) {
+            let userData = {};
+            for (let i in authUser) {
+                if (i !== 'phone' && i !== 'id' && i !== 'role') {
+                    userData[i] = authUser[i];
+                }
+            }
+
+            this.setState({ stateStatus: false });
+            authUser.role === 'Исполнитель' ?
+                await fetch(`${url}/setusersinfo/${token}/${encodeURIComponent(JSON.stringify({ phone: authUser.phone }))}/${encodeURIComponent(JSON.stringify({ ...userData, foto: userData.foto.replace(/\//gi, '...'), status: statusValue }))}`)
+                    .then(() => setAuthUser({ ...authUser, status: statusValue }))
+                :
+                await fetch(`${url}/setCustomerProperties/${token}/${encodeURIComponent(JSON.stringify({ phone: authUser.phone }))}/${encodeURIComponent(JSON.stringify({ ...userData, foto: userData.foto.replace(/\//gi, '...'), status: statusValue }))}`)
+                    .then(() => setAuthUser({ ...authUser, status: statusValue }))
+        } else {
+            this.setState({ stateStatus: true })
+        }
     }
 
     render() {
@@ -112,28 +131,36 @@ class Aside extends React.Component {
                     <section className='user_info'>
                         <div className='user_title'>
                             <div className='user_logo'>
-                                <img src={authUser.user_photo} alt='customer-logo' />
+                                <img src={authUser.foto ? 'https://' + authUser.foto : '/images/icons/default-aside-user.jpg'} alt='customer-logo' />
                             </div>
                             <p>200</p>
                         </div>
                         <h2>{authUser.brand_name}</h2>
                         {stateStatus ?
-                            <textarea className='user_status_area' type='text' value={statusValue} placeholder='Введите статус...' onChange={e => this.setState({ statusValue: e.target.value })} ref={this.wrapperRef} />
+                            <textarea className='user_status_area' type='text' value={authUser.status ? authUser.status : statusValue} autoFocus placeholder='Введите статус...' onKeyDown={(e) => this.handleStatusClick(e)} onChange={e => this.setState({ statusValue: e.target.value })} ref={this.wrapperRef} />
                             :
-                            <p className='user_status' onClick={this.handleStatusClick}>{statusValue ? statusValue : 'Введите статус...'}</p>
+                            <p className='user_status' onClick={this.handleStatusClick}>{authUser.status ? authUser.status : 'Введите статус...'}</p>
                         }
                     </section>
                     <nav>
                         <ul>
                             {navBar.map((nav, i) => (
-                                <li key={i}><Link to={`/${nav.path}`} onClick={() => innerWidth <= 1024 && stateMobileAside(false)}><img src={nav.icon} alt='nav-icon' /><span>{nav.value}</span></Link></li>
+                                <li key={i}><Link to={`/${nav.path}`} onClick={() => {
+                                    if (innerWidth <= 1024) {
+                                        stateMobileAside(false)
+                                        document.body.style.overflowY = 'scroll';
+                                    }
+                                }}><img src={nav.icon} alt='nav-icon' /><span>{nav.value}</span></Link></li>
                             ))}
                         </ul>
-                        <button className='log-out_btn' onClick={handleLogOut}><img src='/images/aside/log-out-icon.svg' alt='log-out-icon' /><span>Выйти из профиля</span></button>
+                        <button className='log-out_btn' onClick={() => {
+                            document.body.style.overflowY = 'scroll';
+                            handleLogOut();
+                        }}><img src='/images/aside/log-out-icon.svg' alt='log-out-icon' /><span>Выйти из профиля</span></button>
                     </nav>
-                    <footer>
+                    {/* <footer>
 
-                    </footer>
+                    </footer> */}
                 </div>
             </aside >
         )

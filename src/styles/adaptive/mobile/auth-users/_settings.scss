@@ -1,0 +1,151 @@
+@media only screen and (max-width: 767px) {
+    .user_title {
+        @include flex-params (row, space-between, center);
+        margin-bottom: 30px;
+    }
+
+    .settings__wrapper {
+        .flex__wrapper {
+            margin-bottom: 30px;
+            justify-content: space-between;
+
+            button {
+                @include font-params (600, 12px, 15px);
+                width: 150px;
+                height: 30px;
+            }
+        }
+
+        h2,
+        label {
+            @include font-params (600, 16px, 20px);
+            color: #353535;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #979797;
+            @include font-params (400, 12px, 15px);
+            max-width: 520px;
+        }
+    }
+
+    .settings_basic__wrapper {
+        @include flex-params (column, flex-start, flex-start);
+
+        >section {
+            width: 100%;
+        }
+
+        .input__container {
+            @include flex-params (column, space-between, center);
+            margin-right: 0;
+            margin-bottom: 20px;
+
+            label {
+                display: block;
+                @include font-params (600, 14px, 18px);
+                margin-bottom: 20px;
+                width: 100%;
+
+                input {
+                    margin-top: 10px;
+                    display: block;
+                    width: 100%;
+                    height: 40px;
+                    border-radius: 10px;
+                    padding: 10px;
+                    border: 1px solid rgba($color: #000000, $alpha: .5);
+                    @include font-params (600, 12px, 15px);
+                }
+            }
+        }
+
+        button {
+            @include font-params (600, 12px, 15px);
+            width: 180px;
+            height: 30px;
+            margin: auto
+        }
+
+        button:disabled {
+            background: rgba($color: #000000, $alpha: .3);
+        }
+
+        textarea {
+            display: block;
+            outline: none;
+            border-radius: 10px;
+            border: none;
+            @include font-params (400, 14px, 18px);
+            resize: none;
+            width: 100%;
+            background: none;
+            max-height: 0;
+            margin-bottom: 0;
+            transition: all 0.5s;
+
+            &.active {
+                max-height: 300px;
+                border: 1px solid #353535;
+                margin-bottom: 20px;
+                padding: 5px;
+            }
+
+            &::-webkit-scrollbar {
+                width: 0;
+            }
+        }
+
+        .upload-photo {
+            @include flex-params (row, flex-start, center);
+            margin-bottom: 20px;
+            align-self: flex-start;
+
+            label {
+                width: 100px;
+                height: 100px;
+                margin: 0;
+                margin-right: 20px;
+            }
+
+            p {
+                @include font-params (600, 14px, 18px);
+                color: rgba($color: #000000, $alpha: .5);
+            }
+        }
+
+        .settings_basic__buttons {
+            @include flex-params (column, flex-start, flex-start);
+
+            button {
+                padding: 20px;
+                border-radius: 10px;
+                @include flex-params (row, space-between, center);
+                color: #353535;
+                background: #F8F8F8;
+                height: max-content;
+                width: 100%;
+                margin-bottom: 20px;
+                @include font-params (600, 14px, 18px);
+
+                svg {
+                    margin-left: 20px;
+                }
+            }
+
+            .social_links {
+                padding-left: 20px;
+                p {
+                    color: #353535;
+                    @include font-params (600, 14px, 18px);
+                    margin-bottom: 10px;
+                }
+
+                svg {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+}

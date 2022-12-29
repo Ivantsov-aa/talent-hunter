@@ -41,7 +41,8 @@ main {
             margin-bottom: 40px;
         }
 
-        button {
+        a {
+            @include flex-params (row, center, center);
             @include font-params (600, 14px, 18px);
             background: #0094FF;
             color: #fff;

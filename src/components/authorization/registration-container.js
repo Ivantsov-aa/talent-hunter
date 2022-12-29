@@ -4,16 +4,17 @@ import PhoneInput, {
     parsePhoneNumber,
     getCountryCallingCode
 } from "react-phone-number-input";
-import ru from 'react-phone-number-input/locale/ru'
+import ru from 'react-phone-number-input/locale/ru';
 import { useForm, Controller } from 'react-hook-form';
 
 import VerificationInput from "react-verification-input";
 import Lottie from "lottie-react";
 import applyIcon from '../../assets/apply-icon.json';
 
-const RegistrationContainer = ({ registrationSubmit, location }) => {
+const RegistrationContainer = ({ registrationSubmit, navigate, url, token, location }) => {
     const [phoneCountryCode, setPhoneCountryCode] = useState('');
     const [togglePassword, setTogglePassword] = useState(false);
+    const [checkPhoneRes, setCheckPhoneRes] = useState(false);
 
     const [registrationSteps, setRegistrationSteps] = useState([
         {
@@ -37,6 +38,7 @@ const RegistrationContainer = ({ registrationSubmit, location }) => {
     const [valueVerification, setValueVerification] = useState('');
     const [codeVerification, setVerificationCode] = useState(null);
     const [successVerification, setSuccessVerification] = useState(false);
+    const [userRole, setUserRole] = useState(null);
 
     const {
         control,
@@ -58,28 +60,66 @@ const RegistrationContainer = ({ registrationSubmit, location }) => {
         if (locationBack.state === 'back') {
             setCurrentStep(4);
         }
-    }, [location.country])
+    }, [location.country, locationBack.state])
+
+    const checkPhone = async (data) => {
+        let dataStr = encodeURIComponent(JSON.stringify(data));
+
+        const completedStep = registrationSteps.map(step => {
+            if (step.value === 1) {
+                return { ...step, status: 'completed' };
+            } else if (step.value === 2) {
+                return { ...step, status: 'active' };
+            } else {
+                return { ...step, status: 'disabed' };
+            }
+        });
+
+        await fetch(`${url}/checkphone/${token}/${dataStr}`)
+            .then(response => response.json())
+            .then(result => {
+                if (result.message === 'Phone not exists!') {
+                    setRegistrationSteps(completedStep);
+                    setCurrentStep(2);
+                    fetch(`${url}/getSms/${token}/${dataStr}`)
+                        .then(response => response.json())
+                        .then(result => setVerificationCode(result.sms_code))
+                        .catch(err => console.log(err))
+                }
+                setError('phone', { message: '* такой номер уже зарегистрирован!' })
+            })
+            .catch(err => console.log(err))
+    }
+
+    const setNewUser = async (data) => {
+        let phoneUrl = encodeURIComponent(JSON.stringify({ phone: data.phone }));
+        let passwordUrl = encodeURIComponent(JSON.stringify({ password: data.password }));
+        let roleUrl = encodeURIComponent(JSON.stringify({ role: data.role }));
+
+        await fetch(`${url}/setNewUser/${token}/${phoneUrl}/${passwordUrl}/${roleUrl}`)
+            .then(() =>
+                navigate(`/registration/${data.role}`, {
+                    state: {
+                        phone: phoneUrl,
+                        url: url,
+                        token: token
+                    }
+                })
+            )
+            .catch(err => console.log(err))
+    }
 
     const onSubmit = (data) => {
-        if (currentStep === 1 && data.phoneNumber) {
-            const completedStep = registrationSteps.map(step => {
-                if (step.value === 1) {
-                    return { ...step, status: 'completed' };
-                } else if (step.value === 2) {
-                    return { ...step, status: 'active' };
-                } else {
-                    return { ...step, status: 'disabed' };
-                }
-            });
+        if (currentStep === 1 && data.phone) {
+            checkPhone(data)
+            // const min = 1000;
+            // const max = 9999;
+            // const random = min + (Math.random() * (max - min));
+            // const code = Math.round(random);
+            // setVerificationCode(code);
 
-            const min = 1000;
-            const max = 9999;
-            const random = min + (Math.random() * (max - min));
-            const code = Math.round(random);
-            setVerificationCode(code);
-
-            setRegistrationSteps(completedStep);
-            setCurrentStep(2);
+            // setRegistrationSteps(completedStep);
+            // setCurrentStep(2);
         } else if (currentStep === 2) {
             const completedStep = registrationSteps.map(step => {
                 if (step.value === 1) {
@@ -101,7 +141,6 @@ const RegistrationContainer = ({ registrationSubmit, location }) => {
             }
         } else if (currentStep === 3) {
             setSuccessVerification(true);
-            registrationSubmit({ phone_number: data.phoneNumber, password: data.password }, 'verification');
             setTimeout(() => {
                 setSuccessVerification(false);
                 setRegistrationSteps(registrationSteps.map(step => (
@@ -110,7 +149,7 @@ const RegistrationContainer = ({ registrationSubmit, location }) => {
                 setCurrentStep(4);
             }, 2000)
         } else {
-
+            setNewUser({ ...data, role: userRole });
         }
     }
 
@@ -134,40 +173,43 @@ const RegistrationContainer = ({ registrationSubmit, location }) => {
                     {!successVerification ?
                         <>
                             {currentStep === 1 &&
-                                <div className={`registration_form ${currentStep === 1 && !successVerification ? 'active' : ''}`}>
+                                <div className={`registration_form password__wrapper ${currentStep === 1 && !successVerification ? 'active' : ''}`}>
                                     <p>
                                         Введите ваш номер телефона.
                                         <span>Мы отправим вам код подтверждения</span>
                                     </p>
-                                    <Controller
-                                        control={control}
-                                        name='phoneNumber'
-                                        rules={{
-                                            validate: {
-                                                isValid: (value) => {
-                                                    if (value) {
-                                                        const callingCode = getCountryCallingCode(phoneCountryCode);
-                                                        if (!new RegExp(`^\\+${callingCode}$`).test(value)) {
-                                                            return !!parsePhoneNumber(value);
+                                    <label className={`phone-unput_label ${errors.phone !== undefined ? 'error_input' : ''}`}>
+                                        <Controller
+                                            control={control}
+                                            name='phone'
+                                            rules={{
+                                                validate: {
+                                                    isValid: (value) => {
+                                                        if (value) {
+                                                            const callingCode = getCountryCallingCode(phoneCountryCode);
+                                                            if (!new RegExp(`^\\+${callingCode}$`).test(value)) {
+                                                                return !!parsePhoneNumber(value);
+                                                            }
                                                         }
+                                                        return true;
                                                     }
-                                                    return true;
                                                 }
-                                            }
-                                        }}
-                                        render={({ field }) => (
-                                            <PhoneInput
-                                                {...field}
-                                                onCountryChange={(v) => setPhoneCountryCode(v)}
-                                                defaultCountry={location ? location.country : 'RU'}
-                                                international
-                                                withCountryCallingCode
-                                                autoFocus
-                                                labels={ru}
-                                            />
-                                        )}
-                                    >
-                                    </Controller>
+                                            }}
+                                            render={({ field }) => (
+                                                <PhoneInput
+                                                    {...field}
+                                                    onCountryChange={(v) => setPhoneCountryCode(v)}
+                                                    defaultCountry={location ? location.country : 'RU'}
+                                                    international
+                                                    withCountryCallingCode
+                                                    autoFocus
+                                                    labels={ru}
+                                                />
+                                            )}
+                                        >
+                                        </Controller>
+                                        <p className={`error ${errors.phone ? 'active' : ''}`}>{errors.phone && errors.phone.message}</p>
+                                    </label>
                                     <input className='next-step' type='submit' value='Далее' />
                                     <Link to='/auth' className='login-btn'>Вход</Link>
                                 </div>
@@ -289,8 +331,8 @@ const RegistrationContainer = ({ registrationSubmit, location }) => {
                     {currentStep === 4 &&
                         <div className={`role-selection__wrapper registration_form ${currentStep === 4 && !successVerification ? 'active' : ''}`}>
                             <p>Заполните анкету</p>
-                            <Link to='/registration/performer'>Хочу быть исполнителем</Link>
-                            <Link to='/registration/customer'>Хочу быть заказчиком</Link>
+                            <button type='submit' onClick={() => setUserRole('executor')}>Хочу быть исполнителем</button>
+                            <button type='submit' onClick={() => setUserRole('customer')}>Хочу быть заказчиком</button>
                         </div>
                     }
                 </div>

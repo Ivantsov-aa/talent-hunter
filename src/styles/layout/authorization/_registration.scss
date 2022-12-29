@@ -1,6 +1,11 @@
-.PhoneInput {
+.phone-input_label {
     margin-bottom: 30px;
+    display: block
+}
+
+.PhoneInput {
     position: relative;
+    transition: all 0.2s;
 
     *::-webkit-scrollbar {
         width: 5px;
@@ -24,7 +29,7 @@
         width: 90px;
         border-radius: 20px 0 0 20px;
         z-index: 5;
-        padding-top: 14px;
+        padding-top: 13px;
 
         .PhoneInputCountryIcon {
             width: 50px;
@@ -78,12 +83,12 @@
     position: relative;
     background-color: #fff;
     text-align: center;
-    height: 100%;
+    min-height: 100%;
     max-width: 768px;
-    padding: 0 10px;
+    padding: 50px 10px;
     margin: 0 auto;
     color: #353535;
-    @include flex-params(row, center, center);
+    @include flex-params(row, center, flex-start);
 
     >div {
         position: relative;
@@ -164,10 +169,10 @@
         height: 60px;
         width: 100%;
         border: 1px solid #353535;
-        border-radius: 20px;
+        border-radius: 30px;
         padding-left: 32px;
+        padding-right: 60px;
         @include font-params (500, 16px, 22px);
-        margin-bottom: 30px;
     }
 
     .next-step {
@@ -181,6 +186,18 @@
         @include font-params (600, 16px, 22px);
         border-radius: 90px;
         cursor: pointer;
+
+        .loading_icon {
+            height: 30px;
+
+            * {
+                height: 100%;
+            }
+        }
+
+        &.loading {
+            background: #1C2435;
+        }
 
         &:hover {
             background: #1C2435;
@@ -250,7 +267,7 @@
 
             &.active {
                 max-height: 19px;
-                margin-bottom: 40px;
+                margin-bottom: 30px;
             }
         }
     }
@@ -282,11 +299,13 @@
         margin-bottom: 40px;
     }
 
-    a {
+    button {
         @include flex-params (row, center, center);
         background: #0094FF;
         height: 60px;
         width: 300px;
+        border: none;
+        color: #fff;
         border-radius: 30px;
         margin: 0 auto 25px;
         @include font-params (600, 16px, 22px);
@@ -300,6 +319,8 @@
 .password__wrapper {
     label {
         position: relative;
+        margin-bottom: 30px;
+        display: block;
 
         .password_toggle {
             width: 20px;
@@ -328,14 +349,13 @@
             margin: 0;
             overflow: hidden;
             color: #FC3232;
-            transition: all 0.5s;
-            @include font-params (500, 12px, 15px);
+            transition: all 0.3s;
+            @include font-params (500, 12px, 20px);
             text-align: left;
 
             &.active {
                 max-width: 100%;
-                max-height: max-content;
-                margin: 5px 0 40px;
+                max-height: 20px;
             }
         }
     }

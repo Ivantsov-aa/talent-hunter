@@ -20,14 +20,20 @@ import GalleryMusic from "./components/auth-users/gallery/gallery-music";
 import Settings from './components/auth-users/settings';
 import Favorites from './components/auth-users/favorites';
 
-import ProfileFeed from "./components/auth-users/profile/feed";
-import ProfileNearby from "./components/auth-users/profile/nearby";
+import ProfileCastings from "./components/auth-users/profile/castings";
+import ProfilePhotos from "./components/auth-users/profile/photos";
+import ProfileVideo from "./components/auth-users/profile/videos";
+import ProfileAudio from "./components/auth-users/profile/audio";
 import SettingsAccount from "./components/auth-users/settings/settings-account";
 import SettingsBasic from "./components/auth-users/settings/settings-basic";
 import AddCasting from "./components/auth-users/castings/add-casting";
 import RegistrationContainer from "./components/authorization/registration-container";
 import AuthorizationPopUp from "./components/authorization/authorization-pop-up";
 import RegistrationCustomer from "./components/authorization/registration-customer";
+import RegistrationPerformer from "./components/authorization/registration-performer";
+
+const url = 'https://imperia.redportal.ru/api';
+const token = 'wjLEnK5TcIAfrBhLEn';
 
 const App = ({ store }) => {
   const [themeMode, setThemeMode] = useState('light');
@@ -35,77 +41,45 @@ const App = ({ store }) => {
   const [stateAsideFilter, setStateAsideFilter] = useState(false);
   const [stateSearchFilter, setStateSearchFilter] = useState(false);
 
-  const [userAuthData, setUserAuthData] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [isLogged, setStateLogged] = useState(false);
   const [authUser, setAuthUser] = useState(null);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [galleryLoading, setGalleryLoading] = useState({ value: 0, state: false });
 
   const navigate = useNavigate();
   const urlLocation = useLocation();
   const location = useGeoLocation();
 
-  const userIdLS = localStorage.getItem('userId');
-
-  let arrayUsers = JSON.parse(localStorage.getItem('users'));
-  if (arrayUsers === null) arrayUsers = [];
-
   useEffect(() => {
-    if (!isLogged) {
-      arrayUsers.map(user => {
-        if (user && user.is_logged) {
-          setAuthUser(user);
-          setStateLogged(true);
-        }
-        return user;
-      })
+    let user = localStorage.getItem('phone');
+    if (!isLogged && user) {
+      authorizationSubmit(user);
     }
 
     window.addEventListener('resize', () => setInnerWidth(window.innerWidth));
     return () => window.removeEventListener('resize', () => setInnerWidth(window.innerWidth));
-  }, [arrayUsers, isLogged])
+  }, [isLogged])
 
-  const authorizationSubmit = id => {
-    arrayUsers.forEach(user => {
-      if (user.user_id === id) {
-        setAuthUser(user)
-        setStateLogged(true)
-      }
-    });
-    const loggedUser = arrayUsers.map(user => user.user_id === id ? { ...user, is_logged: true } : { ...user, is_logged: false });
-    localStorage.setItem('users', JSON.stringify(loggedUser));
-    setChangesStyle('');
-  }
-
-  const registrationSubmit = (data, success) => {
-    if (success === 'verification') {
-      setUserAuthData(data);
-
-    } else if (success === 'quastionnaire') {
-      localStorage.setItem('userId', userIdLS ? +userIdLS + 1 : 1);
-      const userIdToArray = localStorage.getItem('userId');
-      setUserId(userIdToArray);
-      arrayUsers.push({ ...data, user_id: userIdToArray, ...userAuthData });
-      localStorage.setItem('users', JSON.stringify(arrayUsers));
-
-    } else {
-      const addPhotoToUser = arrayUsers.map(user => user.user_id === userId ? { ...user, user_photo: data, is_logged: true } : { ...user })
-      localStorage.setItem('users', JSON.stringify(addPhotoToUser));
-      setAuthUser({ ...data, is_logged: true, user_photo: data });
-      setStateLogged(true);
-    }
+  const authorizationSubmit = async (phone) => {
+    await fetch(`${url}/getUsersInfo/${token}/${phone}`)
+      .then(response => response.json())
+      .then(result => {
+        setAuthUser(result);
+        setStateLogged(true);
+        localStorage.setItem('phone', phone);
+        navigate('/');
+      })
   }
 
   const handleLogOut = () => {
-    const logOutUser = arrayUsers.map(user => user.user_id === authUser.user_id ? { ...user, is_logged: false } : { ...user });
-    localStorage.setItem('users', JSON.stringify(logOutUser));
     setStateLogged(false);
+    localStorage.removeItem('phone');
     setAuthUser(null);
     navigate('/');
   }
 
   return (
-    <div className={`wrapper ${stylesBeforeOpenPopUp} ${stateAsideFilter || stateSearchFilter ? 'open_filter' : ''}`}>
+    <div className={`wrapper ${isLogged ? 'logged_wrapper' : ''} ${stylesBeforeOpenPopUp} ${stateAsideFilter || stateSearchFilter ? 'open_filter' : ''}`}>
       <Routes>
         <Route
           path='/'
@@ -113,6 +87,8 @@ const App = ({ store }) => {
             <WrapperForUsers
               urlLocation={urlLocation}
               authUser={authUser}
+              url={url}
+              token={token}
               isLogged={isLogged}
               themeMode={themeMode}
               innerWidth={innerWidth}
@@ -122,6 +98,8 @@ const App = ({ store }) => {
               stateAsideFilter={stateAsideFilter}
               setStateAsideFilter={setStateAsideFilter}
               castingsLength={store.castings.length}
+              setAuthUser={setAuthUser}
+              galleryLoading={galleryLoading}
             />
             :
             <WrapperForGuests
@@ -130,10 +108,8 @@ const App = ({ store }) => {
               stylesBeforeOpenPopUp={stylesBeforeOpenPopUp}
               navigate={navigate}
               setChangesStyle={setChangesStyle}
-              registrationSubmit={registrationSubmit}
               authorizationSubmit={authorizationSubmit}
               setStateAsideFilter={setStateAsideFilter}
-              arrayUsers={arrayUsers}
               innerWidth={innerWidth}
             />
           }
@@ -144,14 +120,16 @@ const App = ({ store }) => {
             setStateAsideFilter={setStateAsideFilter}
             setStateSearchFilter={setStateSearchFilter}
             users={store.users}
-            castings={store.castings}
+            role={authUser && authUser.role}
+            url={url}
+            token={token}
             innerWidth={innerWidth}
           />} />
-          <Route path='/profile/' element={<Profile authUser={authUser} urlLocation={urlLocation.pathname} />}>
-            <Route path='/profile/' element={<ProfileFeed authUser={authUser} />} />
-            <Route path='nearby' element={<ProfileNearby />} />
-            {/* <Route path='nearby' element={<ProfileNearby />} /> */}
-            {/* <Route path='nearby' element={<ProfileNearby />} /> */}
+          <Route path='/profile/' element={<Profile authUser={authUser} themeMode={themeMode} innerWidth={innerWidth} urlLocation={urlLocation.pathname} setStateAsideFilter={setStateAsideFilter} />}>
+            {authUser && authUser.role === 'Заказчик' && <Route path='/profile/' element={<ProfileCastings url={url} token={token} authUser={authUser} />} />}
+            <Route path={authUser && authUser.role === 'Исполнитель' ? '/profile/' : 'photo'} element={<ProfilePhotos gallery={authUser && authUser.gallery_photos} />} />
+            <Route path='video' element={<ProfileVideo gallery={authUser && authUser.gallery_video} />} />
+            <Route path='audio' element={<ProfileAudio />} />
           </Route>
           <Route path='/news' element={
             <News
@@ -161,43 +139,45 @@ const App = ({ store }) => {
               setStateAsideFilter={setStateAsideFilter}
             />}
           />
-          <Route path='/direct' element={<Direct />} />
+          <Route path='/direct' element={<Direct innerWidth={innerWidth} setStateAsideFilter={setStateAsideFilter} />} />
           <Route path='/friends' element={<Friends setStateAsideFilter={setStateAsideFilter} />} />
-          <Route path='/gallery' element={<Gallery urlLocation={urlLocation.pathname} />}>
+          <Route path='/gallery' element={<Gallery url={url} token={token} authUser={authUser} setAuthUser={setAuthUser} galleryLoading={galleryLoading} setGalleryLoading={setGalleryLoading} urlLocation={urlLocation.pathname} setStateAsideFilter={setStateAsideFilter} />}>
             <Route path='photo' element={<GalleryPhoto
-              portfolioPhoto={authUser && authUser.portfolio_photo}
+              gallery={authUser && authUser.gallery_photos}
             />} />
             <Route path='video' element={<GalleryVideo
-              portfolioVideo={authUser && authUser.portfolio_video}
+              gallery={authUser && authUser.gallery_video}
             />} />
             <Route path='audio' element={<GalleryMusic
-              portfolioMusic={authUser && authUser.portfolio_music}
             />} />
           </Route>
           <Route path='/favorites' element={<Favorites users={store.users} setStateAsideFilter={setStateAsideFilter} />} />
-          <Route path='/settings' element={<Settings urlLocation={urlLocation.pathname} authUser={authUser} />}>
-            <Route path='account' element={<SettingsAccount />} />
-            <Route path='basic' element={<SettingsBasic authUser={authUser} setAuthUser={setAuthUser} arrayUsers={arrayUsers} />} />
+          <Route path='/settings' element={<Settings urlLocation={urlLocation.pathname} authUser={authUser} setStateAsideFilter={setStateAsideFilter} />}>
+            <Route path='account' element={<SettingsAccount innerWidth={innerWidth} />} />
+            <Route path='basic' element={<SettingsBasic url={url} token={token} authUser={authUser} setAuthUser={setAuthUser} />} />
           </Route>
-          <Route path='/castings' element={<Castings setStateAsideFilter={setStateAsideFilter} />} />
-          <Route path='/castings/:id' element={<CastingBlock setStateAsideFilter={setStateAsideFilter} urlLocation={urlLocation.pathname} castings={store.castings} />} />
-          <Route path='/castings/add/:id' element={<AddCasting location={location} setStateAsideFilter={setStateAsideFilter} />} />
+          <Route path='/castings' element={<Castings url={url} token={token} authUser={authUser} setStateAsideFilter={setStateAsideFilter} />} />
+          <Route path='/castings/:id' element={<CastingBlock authUser={authUser} setStateAsideFilter={setStateAsideFilter} url={url} token={token} />} />
+          <Route path='/castings/add' element={<AddCasting url={url} token={token} navigate={navigate} userId={authUser && authUser.id} location={location} setStateAsideFilter={setStateAsideFilter} />} />
         </Route>
-        <Route path='registration' element={
+        <Route path='/registration' element={
           <RegistrationContainer
-            registrationSubmit={registrationSubmit}
             location={location}
             navigate={navigate}
             stylesBeforeOpenPopUp={stylesBeforeOpenPopUp}
             setChangesStyle={setChangesStyle}
+            url={url}
+            token={token}
           />
         } />
-        <Route path='/registration/customer' element={<RegistrationCustomer registrationSubmit={registrationSubmit} navigate={navigate} />} />
+        <Route path='/registration/customer' element={<RegistrationCustomer authorizationSubmit={authorizationSubmit} navigate={navigate} />} />
+        <Route path='/registration/executor' element={<RegistrationPerformer authorizationSubmit={authorizationSubmit} navigate={navigate} />} />
         <Route path='auth' element={
           <AuthorizationPopUp
             authorizationSubmit={authorizationSubmit}
             location={location}
-            arrayUsers={arrayUsers}
+            url={url}
+            token={token}
           />
         } />
       </Routes>

@@ -8,6 +8,12 @@
             @include font-params (600, 14px, 18px);
             transition: all 0.3s;
 
+            .loading_icon {
+                div {
+                    height: 18px;
+                }
+            }
+
             &:hover {
                 background: #1C2435;
             }
@@ -24,13 +30,25 @@
 
                 .flex__wrapper {
                     justify-content: flex-start;
+                    gap: 37px;
 
                     p {
                         @include font-params (500, 14px, 18px);
                     }
 
                     .upload-photo {
-                        margin-right: 50px;
+                        position: relative;
+
+                        .loading {
+                            @include flex-params (row, center, center);
+                            @include font-params (600, 20px, 25px);
+                            color: #fff;
+                            position: absolute;
+                            height: 150px;
+                            width: 150px;
+                            border-radius: 20px;
+                            background: rgba($color: #000, $alpha: .5);
+                        }
 
                         input {
                             opacity: 0;
@@ -62,17 +80,27 @@
 
                         label {
                             margin-bottom: 0;
-                            margin-left: 20px;
                         }
 
-                        >div {
+                        .wrapper {
                             @include flex-params (row, flex-start, center);
                             margin-bottom: 20px;
+                            gap: 20px;
+
+                            &.scroll {
+                                overflow: hidden;
+                                overflow-x: auto;
+                                max-width: 490px;
+
+                                &::-webkit-scrollbar {
+                                    display: none;
+                                }
+                            }
 
                             .img__wrapper {
-                                margin-right: 20px;
                                 position: relative;
-                                width: 150px;
+                                max-width: 150px;
+                                min-width: 150px;
                                 height: 150px;
 
                                 &.active {
@@ -107,8 +135,8 @@
                                     display: none;
                                     background: none;
                                     position: absolute;
-                                    right: -10px;
-                                    top: -10px;
+                                    right: 5px;
+                                    top: 5px;
                                     z-index: 10;
                                 }
                             }
@@ -146,7 +174,7 @@
                     padding: 0;
                     margin: 0;
                     display: flex;
-                    max-width: 200px;
+                    max-width: 230px;
                 }
 
                 .PhoneInputInput {
@@ -169,6 +197,10 @@
                     img {
                         height: 15px;
                     }
+
+                    svg {
+                        height: 15px;
+                    }
                 }
 
                 input {
@@ -184,6 +216,12 @@
             @include font-params (600, 16px, 20px);
             @include flex-params (row, space-between, center);
             margin-bottom: 20px;
+
+            &.title {
+                input[type=text] {
+                    width: 50%;
+                }
+            }
 
             textarea,
             input,

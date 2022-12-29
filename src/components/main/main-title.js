@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 class MainTitle extends React.Component {
     render() {
@@ -10,7 +11,7 @@ class MainTitle extends React.Component {
                 </div>
                 <h1>TALENT HUNTERS</h1>
                 <p>Самый удобный, интуитивный сервис кастингов в Рунете</p>
-                <button>Присоединиться</button>
+                <Link to='/registration'>Присоединиться</Link>
             </section>
         )
     }

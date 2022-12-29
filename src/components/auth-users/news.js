@@ -50,14 +50,17 @@ class News extends React.Component {
                             <button onClick={setStateSearchFilter}><img src='/images/icons/search-filter-icon.svg' alt='search-filter' /></button>
                         </label>
                     </div>
-                    <button className='hamburger_btn' onClick={setStateAsideFilter}><span></span><span></span></button>
+                    <button className='hamburger_btn' onClick={() => {
+                        document.body.style.overflow = 'hidden'
+                        setStateAsideFilter(true);
+                    }}><span></span><span></span></button>
                 </div>
                 <section className='news__container'>
                     <section className='news__block'>
                         <div className='news__content'>
                             <div className='news__block_title'>
                                 <div className='stories_block'>
-                                    <Link to={`/profile/1`} className='stories__title'><img src='/images/users/jiao.png' alt='user-logo' /><p>Мария Сергеевна</p></Link>
+                                    <Link to={`/profile/1`} className='stories__title'><img src='/images/icons/default-aside-user.jpg' alt='user-logo' /><p>Talent Hunter</p></Link>
                                 </div>
                                 <p className='location'>ВДНХ</p>
                             </div>
@@ -119,11 +122,11 @@ class News extends React.Component {
                                 {commentsArray.map((comment, i) => (
                                     <div className='comment__block' key={i}>
                                         <div className='stories_block'>
-                                            <Link to={`/profile/1`} className='stories__title'><img src='/images/users/jiao.png' alt='user-logo' /></Link>
+                                            <Link to={`/profile/1`} className='stories__title'><img src='/images/icons/default-aside-user.jpg' alt='user-logo' /></Link>
                                         </div>
                                         <div className='comment__content'>
                                             <div className='comment_text'>
-                                                <span className='user_name'>Мария Сергеевна</span>
+                                                <span className='user_name'>Talent Hunter</span>
                                                 <span>{comment.comment_text}</span>
                                             </div>
                                             <div className='comment__footer'>
@@ -148,14 +151,14 @@ class News extends React.Component {
                                 <TextareaAutosize placeholder='Добавь свой комментарий' minRows={1} maxRows={3} />
                                 <button>Отправить</button>
                             </div>
-                            <button className='offer_cooperation'>Предложить сотрудничество</button>
+                            <button className='offer_cooperation'>Перейти на сайт</button>
                         </div>
                     </section>
                     <section className='news__block'>
                         <div className='news__content'>
                             <div className='news__block_title'>
                                 <div className='stories_block'>
-                                    <Link to={`/profile/1`} className='stories__title'><img src='/images/users/jiao.png' alt='user-logo' /><p>Мария Сергеевна</p></Link>
+                                    <Link to={`/profile/1`} className='stories__title'><img src='/images/icons/default-aside-user.jpg' alt='user-logo' /><p>Talent Hunter</p></Link>
                                 </div>
                                 <p className='location'>ВДНХ</p>
                             </div>
@@ -217,11 +220,11 @@ class News extends React.Component {
                                 {commentsArray.map((comment, i) => (
                                     <div className='comment__block' key={i}>
                                         <div className='stories_block'>
-                                            <Link to={`/profile/1`} className='stories__title'><img src='/images/users/jiao.png' alt='user-logo' /></Link>
+                                            <Link to={`/profile/1`} className='stories__title'><img src='/images/icons/default-aside-user.jpg' alt='user-logo' /></Link>
                                         </div>
                                         <div className='comment__content'>
                                             <div className='comment_text'>
-                                                <span className='user_name'>Мария Сергеевна</span>
+                                                <span className='user_name'>Talent Hunter</span>
                                                 <span>{comment.comment_text}</span>
                                             </div>
                                             <div className='comment__footer'>
@@ -253,7 +256,7 @@ class News extends React.Component {
                         <div className='news__content'>
                             <div className='news__block_title'>
                                 <div className='stories_block'>
-                                    <Link to={`/profile/1`} className='stories__title'><img src='/images/users/jiao.png' alt='user-logo' /><p>Мария Сергеевна</p></Link>
+                                    <Link to={`/profile/1`} className='stories__title'><img src='/images/icons/default-aside-user.jpg' alt='user-logo' /><p>Talent Hunter</p></Link>
                                 </div>
                                 <p className='location'>ВДНХ</p>
                             </div>
@@ -315,11 +318,11 @@ class News extends React.Component {
                                 {commentsArray.map((comment, i) => (
                                     <div className='comment__block' key={i}>
                                         <div className='stories_block'>
-                                            <Link to={`/profile/1`} className='stories__title'><img src='/images/users/jiao.png' alt='user-logo' /></Link>
+                                            <Link to={`/profile/1`} className='stories__title'><img src='/images/icons/default-aside-user.jpg' alt='user-logo' /></Link>
                                         </div>
                                         <div className='comment__content'>
                                             <div className='comment_text'>
-                                                <span className='user_name'>Мария Сергеевна</span>
+                                                <span className='user_name'>Talent Hunter</span>
                                                 <span>{comment.comment_text}</span>
                                             </div>
                                             <div className='comment__footer'>

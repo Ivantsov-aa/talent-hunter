@@ -202,13 +202,17 @@
             grid-auto-rows: 288px;
             gap: 18px;
 
+            &.casting__content {
+                grid-auto-rows: auto;
+            }
+
             .content_block {
                 position: relative;
                 transition: .3s;
 
                 >img {
                     width: 100%;
-                    height: 100%;
+                    height: 288px;
                     border-radius: 20px;
                     object-fit: cover;
                 }
@@ -218,12 +222,12 @@
                 }
 
                 &:nth-child(4n + 1) {
-                    height: 100%;
+                    height: 288px;
                     grid-column: 1;
                 }
 
                 &:nth-child(4n + 3) {
-                    height: 100%;
+                    height: 288px;
                     grid-column: 1;
                 }
 

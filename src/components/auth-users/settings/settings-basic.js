@@ -1,58 +1,148 @@
 import React from "react";
 import ReactTextareaAutosize from "react-textarea-autosize";
 
+import { Uploader } from "uploader";
+import { UploadButton } from "react-uploader";
+
 class SettingsBasic extends React.Component {
     state = {
         uploadPhoto: null,
         aboutYourself: false
     };
 
-    handleUploadPhoto = e => {
+    handleSaveChanges = async (files) => {
+        const { setAuthUser, authUser, url, token } = this.props;
 
-        let reader = new FileReader();
-        let file = e.target.files[0];
+        let filePath = files.split('//')[1].replace(/\//gi, '...');
 
-        reader.onload = () => {
-            this.setState({ uploadPhoto: reader.result });
+        let userInfoCustomer = authUser.role === 'Заказчик' ?
+            encodeURIComponent(
+                JSON.stringify({
+                    name: authUser.name || '',
+                    city: authUser.city || '',
+                    description: authUser.description || '',
+                    url_site: authUser.url_site || '',
+                    email: authUser.email || '',
+                    address: authUser.address || '',
+                    about_me: authUser.about_me || '',
+                    foto: authUser.foto ? authUser.foto + ', ' + filePath : filePath
+                })
+            )
+            :
+            encodeURIComponent(
+                JSON.stringify({
+                    city: authUser.city || '',
+                    surname: authUser.surname || '',
+                    name: authUser.name || '',
+                    middle_name: authUser.middle_name || '',
+                    birth_date: authUser.birth_date || '',
+                    ui_age_id: authUser.ui_age_id || null,
+                    email: authUser.email || '',
+                    gender: authUser.gender || null,
+                    family_status: authUser.family_status || null,
+                    having_children: authUser.having_children || null,
+                    ui_languages: authUser.ui_languages || '',
+                    inter_passport: authUser.inter_passport || null,
+                    ui_nationality: authUser.ui_nationality || '',
+                    business_trips: authUser.business_trips || null,
+                    ui_face_type: authUser.ui_face_type || null,
+                    ui_face_form: authUser.ui_face_form || null,
+                    ui_eye_color: authUser.ui_eye_color || null,
+                    ui_eye_shape: authUser.ui_eye_shape || '',
+                    ui_skin_color: authUser.ui_skin_color || null,
+                    ui_racial_identity: authUser.ui_racial_identity || null,
+                    ui_nose_shape: authUser.ui_nose_shape || null,
+                    ui_lips: authUser.ui_lips || '',
+                    ui_hair_color: authUser.ui_hair_color || null,
+                    hair_length: authUser.hair_length || null,
+                    ui_haircut: authUser.ui_haircut || null,
+                    height: authUser.height || null,
+                    ui_height: authUser.ui_height || null,
+                    ui_clothes_size: authUser.ui_clothes_size || null,
+                    ui_shoe_size: authUser.ui_shoe_size || null,
+                    ui_body_type: authUser.ui_body_type || null,
+                    waist_size: authUser.waist_size || null,
+                    hip_measurements: authUser.hip_measurements || null,
+                    bust: authUser.bust || null,
+                    ui_breast_size: authUser.ui_breast_size || null,
+                    ui_cosmetic_details: authUser.ui_cosmetic_details || '',
+                    ui_cosmetic_surgery: authUser.ui_cosmetic_surgery || '',
+                    ui_tattoo: authUser.ui_tattoo || null,
+                    ui_education: authUser.ui_education || '',
+                    ui_future_profession: authUser.ui_future_profession || '',
+                    ui_dental: authUser.ui_dental || null,
+                    ui_speech_features: authUser.ui_speech_features || '',
+                    ui_facial_hair: authUser.ui_facial_hair || '',
+                    ui_corporal_vegetation: authUser.ui_corporal_vegetation || null,
+                    ui_social_status: authUser.ui_social_status || '',
+                    professional_skills: authUser.professional_skills || '',
+                    additional_skills: authUser.additional_skills || '',
+                    ui_creative_activity: authUser.ui_creative_activity || '',
+                    underwear_ads: authUser.underwear_ads || null,
+                    social_network: authUser.social_network || '',
+                    ui_sexual_orientation: authUser.ui_sexual_orientation || null,
+                    status: authUser.status || '',
+                    ui_hobby: authUser.ui_hobby.join(', ') || '',
+                    ui_character_traits: authUser.ui_character_traits.join(', ') || '',
+                    ui_basic_qualities: authUser.ui_basic_qualities.join(', ') || '',
+                    ui_characteristic: authUser.ui_characteristic.join(', ') || '',
+                    gallery_photos: authUser.gallery_photos.replace(/\//gi, '...') || '',
+                    gallery_video: authUser.gallery_video.replace(/\//gi, '...') || '',
+                    about_me: authUser.about_me || '',
+                    foto: authUser.foto ? [...authUser.foto, filePath] : filePath
+                })
+            );
+
+        if (authUser.role === 'Заказчик') {
+            await fetch(`${url}/setCustomerProperties/${token}/${authUser.phone}/${userInfoCustomer}`)
+                .then((resp) => {
+                    if (resp.status === 200) {
+                        this.setState({ uploadPhoto: files })
+                        setAuthUser({ ...authUser, foto: files.split('//')[1] });
+                    }
+                })
+        } else {
+            await fetch(`${url}/setusersinfo/${token}/${authUser.phone}/${userInfoCustomer}`)
+                .then((resp) => {
+                    if (resp.status === 200) {
+                        this.setState({ uploadPhoto: files })
+                        setAuthUser({ ...authUser, foto: files.split('//')[1] });
+                    }
+                })
         }
-
-        reader.readAsDataURL(file);
-    }
-
-    handleSavePhoto = () => {
-        const { arrayUsers, setAuthUser, authUser } = this.props;
-
-        setAuthUser({ ...authUser, user_photo: this.state.uploadPhoto });
-        this.setState({ uploadPhoto: null });
-
-        const uploadPhoto = arrayUsers.map(user => user.user_id === authUser.user_id ?
-            { ...user, user_photo: this.state.uploadPhoto } : { ...user }
-        );
-
-        localStorage.setItem('users', JSON.stringify(uploadPhoto));
     }
 
     render() {
         const { uploadPhoto, aboutYourself } = this.state;
         const { authUser } = this.props;
-        console.log(authUser);
+
+        const uploader = Uploader({
+            apiKey: "public_kW15b1GB389CPsY8LTuoYBAFX7BR"
+        });
+
+        const options = { multi: true };
 
         return (
             <section className='settings_basic__wrapper'>
                 <section className='input__container'>
                     <div className='upload-photo'>
-                        <input
-                            type='file'
-                            accept='image/*'
-                            id='upload-photo'
-                            onChange={this.handleUploadPhoto}
-                        />
-                        <label htmlFor='upload-photo'>{authUser.user_photo ? <img className='user-photo' src={uploadPhoto ? uploadPhoto : authUser.user_photo} alt='upload' /> : '+'}</label>
+                        <UploadButton
+                            uploader={uploader}
+                            options={options}
+                            onComplete={files => this.handleSaveChanges(files.map(e => e.fileUrl).join("\n"))}
+                        >
+                            {({ onClick }) =>
+                                <button onClick={onClick}>
+                                    {authUser.foto || uploadPhoto ? <img className='user-photo' src={uploadPhoto ? uploadPhoto : 'https://' + authUser.foto} alt='upload' /> : '+'}
+                                </button>
+                            }
+                        </UploadButton>
+                        {/* <label htmlFor='upload-photo'>{authUser.foto || uploadPhoto ? <img className='user-photo' src={uploadPhoto ? uploadPhoto : authUser.foto} alt='upload' /> : '+'}</label> */}
                         <div>
                             <h2>
-                                {authUser.brand_name ? authUser.brand_name : `${authUser.first_name} ${authUser.last_name}`}
+                                {authUser.name ? authUser.name : `${authUser.first_name} ${authUser.last_name}`}
                             </h2>
-                            <p>ID: {authUser.user_id}</p>
+                            <p>ID: {authUser.id}</p>
                         </div>
                     </div>
                     <label>
@@ -61,7 +151,7 @@ class SettingsBasic extends React.Component {
                             type='text'
                             className='phone_input'
                             placeholder='Ваше имя'
-                            defaultValue={authUser.brand_name}
+                            defaultValue={authUser.name}
                         />
                     </label>
                     <label>
@@ -79,10 +169,28 @@ class SettingsBasic extends React.Component {
                             type='text'
                             className='phone_input'
                             placeholder='Номер телефона'
-                            defaultValue={authUser.phone_number}
+                            defaultValue={authUser.phone}
                         />
                     </label>
-                    <button disabled={uploadPhoto ? false : true} onClick={this.handleSavePhoto}>Сохранить изменения</button>
+                    <label>
+                        Деятельность компании
+                        <input
+                            type='text'
+                            className='phone_input'
+                            placeholder='Номер телефона'
+                            defaultValue={authUser.description}
+                        />
+                    </label>
+                    <label>
+                        Город
+                        <input
+                            type='text'
+                            className='phone_input'
+                            placeholder='Номер телефона'
+                            defaultValue={authUser.city}
+                        />
+                    </label>
+                    <button disabled={uploadPhoto ? false : true} onClick={this.handleSaveChanges}>Сохранить изменения</button>
                 </section>
                 <section className='settings_basic__buttons'>
                     <button onClick={() => this.setState({ aboutYourself: !aboutYourself })}>
@@ -92,12 +200,12 @@ class SettingsBasic extends React.Component {
                         </svg>
                     </button>
                     <ReactTextareaAutosize placeholder='О себе...' className={`${aboutYourself ? 'active' : ''}`} minRows={3} maxRows={8} maxLength={150} />
-                    <button>
+                    {/* <button>
                         Анкета
                         <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M25.8875 20.8875L22.8625 17.8625C22.7463 17.7453 22.608 17.6523 22.4557 17.5889C22.3034 17.5254 22.14 17.4928 21.975 17.4928C21.81 17.4928 21.6466 17.5254 21.4943 17.5889C21.342 17.6523 21.2037 17.7453 21.0875 17.8625L16.6125 22.3375C16.4966 22.4543 16.405 22.5928 16.3428 22.7451C16.2806 22.8974 16.249 23.0605 16.25 23.225V26.25C16.25 26.5815 16.3817 26.8995 16.6161 27.1339C16.8505 27.3683 17.1685 27.5 17.5 27.5H20.525C20.6895 27.501 20.8526 27.4694 21.0049 27.4072C21.1572 27.345 21.2957 27.2534 21.4125 27.1375L25.8875 22.6625C26.0047 22.5463 26.0977 22.408 26.1611 22.2557C26.2246 22.1034 26.2572 21.94 26.2572 21.775C26.2572 21.61 26.2246 21.4466 26.1611 21.2943C26.0977 21.142 26.0047 21.0037 25.8875 20.8875V20.8875ZM20 25H18.75V23.75L21.975 20.525L23.225 21.775L20 25ZM12.5 25H7.5C7.16848 25 6.85054 24.8683 6.61612 24.6339C6.3817 24.3995 6.25 24.0815 6.25 23.75V6.25C6.25 5.91848 6.3817 5.60054 6.61612 5.36612C6.85054 5.1317 7.16848 5 7.5 5H13.75V8.75C13.75 9.74456 14.1451 10.6984 14.8483 11.4017C15.5516 12.1049 16.5054 12.5 17.5 12.5H21.25V13.75C21.25 14.0815 21.3817 14.3995 21.6161 14.6339C21.8505 14.8683 22.1685 15 22.5 15C22.8315 15 23.1495 14.8683 23.3839 14.6339C23.6183 14.3995 23.75 14.0815 23.75 13.75V11.25C23.75 11.25 23.75 11.25 23.75 11.175C23.737 11.0602 23.7118 10.947 23.675 10.8375V10.725C23.6149 10.5965 23.5347 10.4783 23.4375 10.375L15.9375 2.875C15.8342 2.77777 15.716 2.6976 15.5875 2.6375C15.5502 2.6322 15.5123 2.6322 15.475 2.6375L15.075 2.5H7.5C6.50544 2.5 5.55161 2.89509 4.84835 3.59835C4.14509 4.30161 3.75 5.25544 3.75 6.25V23.75C3.75 24.7446 4.14509 25.6984 4.84835 26.4017C5.55161 27.1049 6.50544 27.5 7.5 27.5H12.5C12.8315 27.5 13.1495 27.3683 13.3839 27.1339C13.6183 26.8995 13.75 26.5815 13.75 26.25C13.75 25.9185 13.6183 25.6005 13.3839 25.3661C13.1495 25.1317 12.8315 25 12.5 25ZM16.25 6.7625L19.4875 10H17.5C17.1685 10 16.8505 9.8683 16.6161 9.63388C16.3817 9.39946 16.25 9.08152 16.25 8.75V6.7625ZM10 17.5H17.5C17.8315 17.5 18.1495 17.3683 18.3839 17.1339C18.6183 16.8995 18.75 16.5815 18.75 16.25C18.75 15.9185 18.6183 15.6005 18.3839 15.3661C18.1495 15.1317 17.8315 15 17.5 15H10C9.66848 15 9.35054 15.1317 9.11612 15.3661C8.8817 15.6005 8.75 15.9185 8.75 16.25C8.75 16.5815 8.8817 16.8995 9.11612 17.1339C9.35054 17.3683 9.66848 17.5 10 17.5ZM10 12.5H11.25C11.5815 12.5 11.8995 12.3683 12.1339 12.1339C12.3683 11.8995 12.5 11.5815 12.5 11.25C12.5 10.9185 12.3683 10.6005 12.1339 10.3661C11.8995 10.1317 11.5815 10 11.25 10H10C9.66848 10 9.35054 10.1317 9.11612 10.3661C8.8817 10.6005 8.75 10.9185 8.75 11.25C8.75 11.5815 8.8817 11.8995 9.11612 12.1339C9.35054 12.3683 9.66848 12.5 10 12.5ZM12.5 20H10C9.66848 20 9.35054 20.1317 9.11612 20.3661C8.8817 20.6005 8.75 20.9185 8.75 21.25C8.75 21.5815 8.8817 21.8995 9.11612 22.1339C9.35054 22.3683 9.66848 22.5 10 22.5H12.5C12.8315 22.5 13.1495 22.3683 13.3839 22.1339C13.6183 21.8995 13.75 21.5815 13.75 21.25C13.75 20.9185 13.6183 20.6005 13.3839 20.3661C13.1495 20.1317 12.8315 20 12.5 20Z" fill="#0094FF" />
                         </svg>
-                    </button>
+                    </button> */}
                     <button>
                         Черный список
                         <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">

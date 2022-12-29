@@ -75,8 +75,8 @@
             }
 
             .stories_block {
-                width: 66px;
-                height: 66px;
+                width: 50px;
+                height: 50px;
                 padding: 3px;
                 position: relative;
                 cursor: pointer;
@@ -94,16 +94,16 @@
                     display: block;
                     top: 0;
                     left: 0;
-                    width: 66px;
-                    height: 66px;
+                    width: 50px;
+                    height: 50px;
                     background: url('../../../../public/images/icons/border-logo.png') no-repeat center;
                     background-size: cover;
                     transition: all 1s;
                 }
 
                 img {
-                    width: 60px;
-                    height: 60px;
+                    width: 44px;
+                    height: 44px;
                     object-fit: contain;
                     border-radius: 50%;
                 }
@@ -131,9 +131,7 @@
         }
 
         .request_block {
-            display: grid;
-            grid-template-columns: 210px 175px 50px 225px;
-            grid-template-rows: 60px;
+            display: flex;
             justify-content: space-between;
             padding: 20px 0;
             cursor: default;
@@ -152,9 +150,10 @@
             }
 
             button {
-                @include font-params(600, 12px, 30px);
+                @include flex-params (row, center, center);
+                @include font-params(600, 10px, 15px);
                 height: 30px;
-                width: 110px;
+                width: 90px;
                 background: #0094FF;
                 margin-right: 10px;
 

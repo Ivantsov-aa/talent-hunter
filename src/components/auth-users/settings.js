@@ -11,14 +11,17 @@ class Settings extends React.Component {
     }
 
     render() {
-        const { urlLocation, authUser } = this.props;
+        const { urlLocation, authUser, setStateAsideFilter } = this.props;
         const currentUrl = urlLocation.split('/').pop();
 
         return (
             <section className='settings__wrapper'>
                 <div className='user_title'>
                     <h1>Настройки</h1>
-                    <button className='hamburger_btn'><span></span><span></span></button>
+                    <button className='hamburger_btn' onClick={() => {
+                        document.body.style.overflow = 'hidden'
+                        setStateAsideFilter(true);
+                    }}><span></span><span></span></button>
                 </div>
                 <nav>
                     <Link to='/settings/basic' className={`nav_btn ${currentUrl === 'basic' ? 'active' : ''}`}>Основное</Link>

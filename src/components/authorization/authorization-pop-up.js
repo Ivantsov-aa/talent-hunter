@@ -11,24 +11,27 @@ import VerificationInput from "react-verification-input";
 
 import Lottie from "lottie-react";
 import applyIcon from '../../assets/apply-icon.json';
+import loadingIcon from '../../assets/loading-icon.json';
 
-const AuthorizationPopUp = ({ location, handleClickAuthorizationBtn, authorizationSubmit, arrayUsers }) => {
+const AuthorizationPopUp = ({ location, url, token, authorizationSubmit }) => {
     const [step, setStep] = useState(1);
     const [phoneCountryCode, setPhoneCountryCode] = useState('');
     const [togglePassword, setTogglePassword] = useState(false);
-    const [authPath, setAuthPath] = useState('number');
+    // const [authPath, setAuthPath] = useState('number');
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState(null);
     const [valueVerification, setValueVerification] = useState('');
     const [codeVerification, setVerificationCode] = useState(null);
     const [successVerification, setSuccessVerification] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [verifiedPhone, setVerifiedPhone] = useState(null);
 
     const {
         control,
         register,
         handleSubmit,
         setError,
-        reset,
+        // reset,
         clearErrors,
         formState: { errors }
     } = useForm({
@@ -39,100 +42,140 @@ const AuthorizationPopUp = ({ location, handleClickAuthorizationBtn, authorizati
         setPhoneCountryCode(location.country)
     }, [location.country])
 
-    const handleTogglePassword = path => {
-        setAuthPath(path);
-        clearErrors();
-        reset();
+    // const handleTogglePassword = path => {
+    //     setAuthPath(path);
+    //     clearErrors();
+    //     reset();
+    // }
+
+    const checkPhoneAndPassword = async (data) => {
+        let userNumber = encodeURIComponent(JSON.stringify({ phone: data.phoneNumber }));
+        let userPassword = encodeURIComponent(JSON.stringify({ password: data.password }));
+
+        await Promise.all([
+            fetch(`${url}/checkphone/${token}/${userNumber}`)
+                .then(response => response.json()),
+            fetch(`${url}/checkpasswd/${token}/${userNumber}/${userPassword}`)
+                .then(response => response.json()),
+        ])
+            .then(result => {
+                setLoading(false);
+                if (result[0].message === 'Phone exists!' && result[1].message === 'Password matches!') {
+                    setStep(2);
+                    setVerifiedPhone(userNumber);
+                    fetch(`${url}/getSms/${token}/${userNumber}`)
+                        .then(response => response.json())
+                        .then(result => setVerificationCode(result.sms_code))
+                } else if (result[0].message !== 'Phone exists!') {
+                    setError('phone', { message: '* такой номер телефона не зарегистрирован' })
+                } else if (result[1].message !== 'Password matches!') {
+                    setError('password', { message: '* неверный пароль' })
+                }
+            })
     }
 
     const onSubmit = (data) => {
-        arrayUsers.forEach(user => {
-            switch (true) {
-                case data.phoneNumber && user.password === data.password && user.phone_number === data.phoneNumber:
-                    switch (step) {
-                        case 1:
-                            const min = 1000;
-                            const max = 9999;
-                            const random = min + (Math.random() * (max - min));
-                            const code = Math.round(random);
-                            setVerificationCode(code);
+        setLoading(true);
 
-                            setUserId(user.user_id);
-                            setUserName(user.first_name);
-                            setSuccessVerification('verification');
-
-                            setTimeout(() => {
-                                setSuccessVerification('')
-                                setStep(2)
-                            }, 2000)
-                            break;
-
-                        case 2:
-                            if (+valueVerification !== codeVerification) {
-                                setError('verification', { message: '* код введен неправильно' })
-                            } else {
-                                setSuccessVerification('authorized')
-                                setTimeout(() => {
-                                    authorizationSubmit(userId);
-                                }, 2000);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case data.phoneNumber && user.phone_number === data.phoneNumber && user.password !== data.password:
-                    setError('password', { message: 'Неверный пароль' });
-                    break;
-                case data.phoneNumber && user.phone_number !== data.phoneNumber:
-                    setError('phoneNumber', { message: 'Телефон не зарегистрирован' });
-                    break;
-
-                case data.email && user.password === data.password && user.email === data.email:
-                    switch (step) {
-                        case 1:
-                            const min = 1000;
-                            const max = 9999;
-                            const random = min + (Math.random() * (max - min));
-                            const code = Math.round(random);
-                            setVerificationCode(code);
-
-                            setUserId(user.user_id);
-                            setUserName(user.first_name);
-                            setSuccessVerification('verification');
-
-                            setTimeout(() => {
-                                setSuccessVerification('')
-                                setStep(2)
-                            }, 2000)
-                            break;
-
-                        case 2:
-                            if (+valueVerification !== codeVerification) {
-                                setError('verification', { message: '* код введен неправильно' })
-                            } else {
-                                setSuccessVerification('authorized');
-                                setTimeout(() => {
-                                    authorizationSubmit(userId);
-                                }, 2000);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case data.email && user.email === data.email && user.password !== data.password:
-                    setError('password', { message: 'Неверный пароль' });
-                    break;
-                case data.email && user.email !== data.email:
-                    setError('email', { message: 'E-mail не зарегистрирован' });
-                    break;
-
-                default:
-                    break;
+        if (step === 1) {
+            checkPhoneAndPassword(data);
+        } else if (step === 2) {
+            if (+valueVerification !== codeVerification) {
+                setError('verification', { message: '* код введен неправильно' })
+            } else {
+                setSuccessVerification('authorized')
+                setTimeout(() => {
+                    authorizationSubmit(verifiedPhone);
+                }, 2000);
             }
-        })
+        }
+        // arrayUsers.forEach(user => {
+        //     switch (true) {
+        //         case data.phoneNumber && user.password === data.password && user.phone_number === data.phoneNumber:
+        //             switch (step) {
+        //                 case 1:
+        //                     const min = 1000;
+        //                     const max = 9999;
+        //                     const random = min + (Math.random() * (max - min));
+        //                     const code = Math.round(random);
+        //                     setVerificationCode(code);
+
+        //                     setUserId(user.user_id);
+        //                     setUserName(user.first_name);
+        //                     setSuccessVerification('verification');
+
+        //                     setTimeout(() => {
+        //                         setSuccessVerification('')
+        //                         setStep(2)
+        //                     }, 2000)
+        //                     break;
+
+        //                 case 2:
+        //                     if (+valueVerification !== codeVerification) {
+        //                         setError('verification', { message: '* код введен неправильно' })
+        //                     } else {
+        //                         setSuccessVerification('authorized')
+        //                         setTimeout(() => {
+        //                             authorizationSubmit(userId);
+        //                         }, 2000);
+        //                     }
+        //                     break;
+        //                 default:
+        //                     break;
+        //             }
+
+        //             break;
+        //         case data.phoneNumber && user.phone_number === data.phoneNumber && user.password !== data.password:
+        //             setError('password', { message: 'Неверный пароль' });
+        //             break;
+        //         case data.phoneNumber && user.phone_number !== data.phoneNumber:
+        //             setError('phoneNumber', { message: 'Телефон не зарегистрирован' });
+        //             break;
+
+        //         case data.email && user.password === data.password && user.email === data.email:
+        //             switch (step) {
+        //                 case 1:
+        //                     const min = 1000;
+        //                     const max = 9999;
+        //                     const random = min + (Math.random() * (max - min));
+        //                     const code = Math.round(random);
+        //                     setVerificationCode(code);
+
+        //                     setUserId(user.user_id);
+        //                     setUserName(user.first_name);
+        //                     setSuccessVerification('verification');
+
+        //                     setTimeout(() => {
+        //                         setSuccessVerification('')
+        //                         setStep(2)
+        //                     }, 2000)
+        //                     break;
+
+        //                 case 2:
+        //                     if (+valueVerification !== codeVerification) {
+        //                         setError('verification', { message: '* код введен неправильно' })
+        //                     } else {
+        //                         setSuccessVerification('authorized');
+        //                         setTimeout(() => {
+        //                             authorizationSubmit(userId);
+        //                         }, 2000);
+        //                     }
+        //                     break;
+        //                 default:
+        //                     break;
+        //             }
+        //             break;
+        //         case data.email && user.email === data.email && user.password !== data.password:
+        //             setError('password', { message: 'Неверный пароль' });
+        //             break;
+        //         case data.email && user.email !== data.email:
+        //             setError('email', { message: 'E-mail не зарегистрирован' });
+        //             break;
+
+        //         default:
+        //             break;
+        //     }
+        // })
     }
 
     return (
@@ -148,58 +191,59 @@ const AuthorizationPopUp = ({ location, handleClickAuthorizationBtn, authorizati
 
                     {step === 1 && !successVerification &&
                         <section>
-                            {authPath === 'number' ?
-                                <label className={`auth_input ${errors.phoneNumber ? 'error_phone' : ''}`}>
-                                    <Controller
-                                        control={control}
-                                        name='phoneNumber'
-                                        rules={{
-                                            validate: {
-                                                isValid: (value) => {
-                                                    if (value) {
-                                                        const callingCode = getCountryCallingCode(phoneCountryCode);
-                                                        if (!new RegExp(`^\\+${callingCode}$`).test(value)) {
-                                                            return !!parsePhoneNumber(value);
-                                                        }
+                            {/* {authPath === 'number' ? */}
+                            <label className={`phone-input_label auth_input ${errors.phone !== undefined ? 'error_input' : ''}`}>
+                                <Controller
+                                    control={control}
+                                    name='phoneNumber'
+                                    rules={{
+                                        validate: {
+                                            isValid: (value) => {
+                                                if (value) {
+                                                    const callingCode = getCountryCallingCode(phoneCountryCode);
+                                                    if (!new RegExp(`^\\+${callingCode}$`).test(value)) {
+                                                        return !!parsePhoneNumber(value);
                                                     }
-                                                    return true;
                                                 }
+                                                return true;
                                             }
-                                        }}
-                                        render={({ field }) => (
-                                            <PhoneInput
-                                                {...field}
-                                                onCountryChange={(v) => setPhoneCountryCode(v)}
-                                                defaultCountry={location ? location.country : 'RU'}
-                                                international
-                                                withCountryCallingCode
-                                                autoFocus
-                                                labels={ru}
-                                            />
-                                        )}
-                                    >
-                                    </Controller>
-                                    <p className={`error ${errors.phoneNumber ? 'active' : ''}`}>{errors.phoneNumber && errors.phoneNumber.message}</p>
-                                    <button type='button' onClick={() => handleTogglePassword('email')}>войти по e-mail</button>
-                                </label>
-                                :
-                                <label className='auth_input'>
-                                    <input
-                                        className={`phone_input ${errors.email ? 'error_input' : ''}`}
-                                        type='text'
-                                        placeholder='Введите e-mail'
-                                        {...register('email', {
-                                            pattern: {
-                                                value: /([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/,
-                                                message: 'E-mail введён некорректно.'
-                                            }
-                                        })}
-                                    />
-                                    <p className={`error ${errors.email ? 'active' : ''}`}>{errors.email && errors.email.message}</p>
-                                    <button type='button' onClick={() => handleTogglePassword('number')}>войти по номеру</button>
-                                </label>
-                            }
-                            <div className='password__wrapper'>
+                                        }
+                                    }}
+                                    render={({ field }) => (
+                                        <PhoneInput
+                                            {...field}
+                                            onCountryChange={(v) => setPhoneCountryCode(v)}
+                                            defaultCountry={location ? location.country : 'RU'}
+                                            international
+                                            withCountryCallingCode
+                                            autoFocus
+                                            onFocus={() => clearErrors()}
+                                            labels={ru}
+                                        />
+                                    )}
+                                >
+                                </Controller>
+                                <p className={`error ${errors.phone ? 'active' : ''}`}>{errors.phone && errors.phone.message}</p>
+                                {/* <button type='button' onClick={() => handleTogglePassword('email')}>войти по e-mail</button> */}
+                            </label>
+                            {/*//     :
+                            //     <label className='auth_input'>
+                            //         <input
+                            //             className={`phone_input ${errors.email ? 'error_input' : ''}`}
+                            //             type='text'
+                            //             placeholder='Введите e-mail'
+                            //             {...register('email', {
+                            //                 pattern: {
+                            //                     value: /([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/,
+                            //                     message: 'E-mail введён некорректно.'
+                            //                 }
+                            //             })}
+                            //         />
+                            //         <p className={`error ${errors.email ? 'active' : ''}`}>{errors.email && errors.email.message}</p>
+                            //         <button type='button' onClick={() => handleTogglePassword('number')}>войти по номеру</button>
+                            //     </label>
+                            //*/}
+                            <div className='password__wrapper' >
                                 <label>
                                     <input
                                         className={`phone_input ${errors.password !== undefined ? 'error_input' : ''}`}
@@ -225,7 +269,13 @@ const AuthorizationPopUp = ({ location, handleClickAuthorizationBtn, authorizati
                                     <button type='button' className={`password_toggle ${togglePassword ? 'show' : ''}`} onClick={() => setTogglePassword(!togglePassword)}></button>
                                 </label>
                             </div>
-                            <input type='submit' className='next-step' value='Войти' />
+                            <button type='submit' className={`next-step ${loading ? 'loading' : ''}`}>{!loading ?
+                                'Войти'
+                                :
+                                <div className='loading_icon'>
+                                    <Lottie animationData={loadingIcon} />
+                                </div>
+                            }</button>
                         </section>
                     }
                     {successVerification === 'verification' &&

@@ -1,3 +1,7 @@
+.registration_close {
+    background: none;
+}
+
 .performer__direction-choice {
 
     >button {
@@ -66,6 +70,23 @@
 
 .performer__container {
     .customer__wrapper {
+
+        .customer_content {
+            @include flex-params (column, flex-start, flex-start);
+            gap: 30px;
+            width: 100%;
+            margin-bottom: 30px;
+
+            label {
+                width: 100%;
+                text-align: left;
+
+                input {
+                    margin-top: 5px;
+                }
+            }
+        }
+
         .customer__title {
             @include flex-params (row !important, center !important, center !important);
             position: relative;
@@ -109,10 +130,9 @@
             height: 60px;
             width: 540px;
             border: 1px solid #353535;
-            border-radius: 20px;
+            border-radius: 30px;
             padding: 0 32px;
             @include font-params (500, 16px, 22px);
-            margin-bottom: 30px;
 
             >div {
                 display: flex;
@@ -166,10 +186,9 @@
             height: 60px;
             width: 540px;
             border: 1px solid #353535;
-            border-radius: 20px;
+            border-radius: 30px;
             padding: 0 32px;
             @include font-params (500, 16px, 22px);
-            margin-bottom: 30px;
 
             &.radio {
                 >div {
@@ -226,11 +245,13 @@
             select {
                 border: none;
                 outline: none;
+                text-transform: capitalize;
 
                 option {
                     border: none;
                     text-align: end;
                     font-size: 14px;
+                    text-transform: capitalize;
                 }
             }
         }
@@ -245,7 +266,6 @@
             display: grid;
             grid-template-columns: 250px 250px;
             gap: 30px 40px;
-            margin-bottom: 30px;
 
             div {
                 position: relative;
@@ -267,7 +287,7 @@
                 width: 100%;
                 height: 60px;
                 border: 1px solid #353535;
-                border-radius: 20px;
+                border-radius: 30px;
                 outline: none;
                 padding: 0 32px;
                 appearance: none;
@@ -355,7 +375,7 @@
 
             p {
                 @include font-params (600, 16px, 20px);
-                margin: 0 0 20px;
+                margin-bottom: 20px;
             }
 
             &:first-child {

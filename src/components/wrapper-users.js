@@ -5,16 +5,23 @@ import Header from './header';
 import Aside from './auth-users/aside';
 import AsideFilter from './auth-users/aside-filter';
 
-const WrapperForUsers = ({ isLogged, castingsLength, innerWidth, authUser, themeMode, stateAsideFilter, setStateAsideFilter, setThemeMode, setStateLogged, handleLogOut }) => {
+import Lottie from "lottie-react";
+import loadingGalleryIcon from '../assets/loading-gallery.json';
+
+const WrapperForUsers = ({ isLogged, url, token, galleryLoading, castingsLength, innerWidth, setAuthUser, authUser, themeMode, stateAsideFilter, setStateAsideFilter, setThemeMode, setStateLogged, handleLogOut }) => {
     const [mobileAside, stateMobileAside] = useState(false);
 
     return (
         <>
             <Header innerWidth={innerWidth} mobileAside={mobileAside} stateMobileAside={stateMobileAside} isLogged={isLogged} setThemeMode={setThemeMode} />
             <main className='auth-user__wrapper'>
-                <Aside innerWidth={innerWidth} setStateAsideFilter={setStateAsideFilter} mobileAside={mobileAside} stateMobileAside={stateMobileAside} authUser={authUser} setStateLogged={setStateLogged} handleLogOut={handleLogOut} />
-                <section className={`outlet__wrapper ${themeMode === 'dark' ? 'dark' : ''}`}>
+                <Aside url={url} token={token} innerWidth={innerWidth} setAuthUser={setAuthUser} setStateAsideFilter={setStateAsideFilter} mobileAside={mobileAside} stateMobileAside={stateMobileAside} authUser={authUser} setStateLogged={setStateLogged} handleLogOut={handleLogOut} />
+                <section className={`outlet__wrapper ${galleryLoading.state ? 'loading' : ''} ${themeMode === 'dark' ? 'dark' : ''}`}>
                     <Outlet />
+                    {galleryLoading.state && <div className='gallery_loading'>
+                        <Lottie animationData={loadingGalleryIcon} />
+                        <p>{galleryLoading.value} %</p>
+                    </div>}
                 </section>
                 <AsideFilter castingsLength={castingsLength} stateAsideFilter={stateAsideFilter} setStateAsideFilter={setStateAsideFilter} />
             </main>
@@ -22,7 +29,7 @@ const WrapperForUsers = ({ isLogged, castingsLength, innerWidth, authUser, theme
                 <div className='bottom__tab-bar'>
                     <Link to='/profile'>
                         <div className='stories_block'>
-                            <img src={authUser.user_photo} alt='stories-logo' />
+                            <img src={`https://${authUser.foto}`} alt='stories-logo' />
                         </div>
                     </Link>
                     <Link to='/gallery/photo'>
@@ -45,7 +52,7 @@ const WrapperForUsers = ({ isLogged, castingsLength, innerWidth, authUser, theme
                             <path d="M9.82781 12.8333C9.59706 12.8333 9.3715 12.9017 9.17964 13.0299C8.98778 13.1581 8.83825 13.3403 8.74995 13.5535C8.66164 13.7666 8.63854 14.0012 8.68356 14.2275C8.72857 14.4538 8.83969 14.6617 9.00285 14.8249C9.16601 14.988 9.37389 15.0992 9.6002 15.1442C9.82651 15.1892 10.0611 15.1661 10.2743 15.0778C10.4875 14.9895 10.6697 14.8399 10.7979 14.6481C10.926 14.4562 10.9945 14.2307 10.9945 13.9999C10.9945 13.6905 10.8716 13.3938 10.6528 13.175C10.434 12.9562 10.1372 12.8333 9.82781 12.8333ZM14.4945 12.8333C14.2637 12.8333 14.0382 12.9017 13.8463 13.0299C13.6545 13.1581 13.5049 13.3403 13.4166 13.5535C13.3283 13.7666 13.3052 14.0012 13.3502 14.2275C13.3952 14.4538 13.5064 14.6617 13.6695 14.8249C13.8327 14.988 14.0406 15.0992 14.2669 15.1442C14.4932 15.1892 14.7278 15.1661 14.9409 15.0778C15.1541 14.9895 15.3363 14.8399 15.4645 14.6481C15.5927 14.4562 15.6611 14.2307 15.6611 13.9999C15.6611 13.6905 15.5382 13.3938 15.3194 13.175C15.1006 12.9562 14.8039 12.8333 14.4945 12.8333ZM19.1611 12.8333C18.9304 12.8333 18.7048 12.9017 18.513 13.0299C18.3211 13.1581 18.1716 13.3403 18.0833 13.5535C17.995 13.7666 17.9719 14.0012 18.0169 14.2275C18.0619 14.4538 18.173 14.6617 18.3362 14.8249C18.4993 14.988 18.7072 15.0992 18.9335 15.1442C19.1598 15.1892 19.3944 15.1661 19.6076 15.0778C19.8208 14.9895 20.003 14.8399 20.1312 14.6481C20.2594 14.4562 20.3278 14.2307 20.3278 13.9999C20.3278 13.6905 20.2049 13.3938 19.9861 13.175C19.7673 12.9562 19.4706 12.8333 19.1611 12.8333ZM14.4945 2.33325C12.9624 2.33325 11.4453 2.63502 10.0298 3.22132C8.61437 3.80763 7.32824 4.66699 6.24489 5.75034C4.05697 7.93826 2.82781 10.9057 2.82781 13.9999C2.81761 16.6939 3.7504 19.3065 5.46447 21.3849L3.13114 23.7183C2.96926 23.8823 2.85959 24.0906 2.81599 24.317C2.77239 24.5433 2.7968 24.7775 2.88614 24.9899C2.98304 25.1998 3.14013 25.3762 3.33746 25.4967C3.53479 25.6172 3.76347 25.6763 3.99447 25.6666H14.4945C17.5887 25.6666 20.5561 24.4374 22.7441 22.2495C24.932 20.0616 26.1611 17.0941 26.1611 13.9999C26.1611 10.9057 24.932 7.93826 22.7441 5.75034C20.5561 3.56242 17.5887 2.33325 14.4945 2.33325ZM14.4945 23.3333H6.80614L7.89114 22.2483C8.00138 22.1402 8.08907 22.0113 8.14915 21.8692C8.20923 21.727 8.2405 21.5743 8.24114 21.4199C8.23676 21.1122 8.11096 20.8187 7.89114 20.6033C6.36349 19.0773 5.41218 17.0689 5.19928 14.9202C4.98638 12.7715 5.52507 10.6154 6.72357 8.81936C7.92207 7.0233 9.70623 5.69834 11.7721 5.07022C13.8379 4.4421 16.0576 4.54969 18.0531 5.37465C20.0485 6.19961 21.6961 7.69091 22.7153 9.59446C23.7345 11.498 24.0622 13.6961 23.6425 15.8141C23.2228 17.9321 22.0817 19.8391 20.4136 21.2102C18.7455 22.5813 16.6537 23.3316 14.4945 23.3333Z" fill="white" />
                         </svg>
                     </Link>
-                    <Link to={`/castings/add/${castingsLength}`}>
+                    <Link to='/castings/add'>
                         <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M11.2713 0C5.31925 0 0.494141 5.15965 0.494141 11.5244C0.494141 17.8891 5.31925 23.0488 11.2713 23.0488C17.2234 23.0488 22.0485 17.8891 22.0485 11.5244C22.0485 5.15965 17.2234 0 11.2713 0ZM11.2718 2.09546C16.1417 2.09546 20.0895 6.31699 20.0895 11.5245C20.0895 16.732 16.1417 20.9536 11.2718 20.9536C6.40193 20.9536 2.45411 16.732 2.45411 11.5245C2.45411 6.31699 6.40193 2.09546 11.2718 2.09546Z" fill="white" />
                             <path fillRule="evenodd" clipRule="evenodd" d="M11.2718 6.28613C11.7742 6.28613 12.1883 6.69058 12.2449 7.21162L12.2515 7.3338V10.4768H15.1907C15.7318 10.4768 16.1705 10.9459 16.1705 11.5245C16.1705 12.0618 15.7923 12.5046 15.305 12.5651L15.1907 12.5722H12.2515V15.7152C12.2515 16.2938 11.8129 16.7629 11.2718 16.7629C10.7693 16.7629 10.3552 16.3584 10.2986 15.8374L10.292 15.7152V12.5722H7.35279C6.81169 12.5722 6.37305 12.1031 6.37305 11.5245C6.37305 10.9872 6.75127 10.5444 7.23853 10.4839L7.35279 10.4768H10.292V7.3338C10.292 6.75519 10.7307 6.28613 11.2718 6.28613Z" fill="white" />
